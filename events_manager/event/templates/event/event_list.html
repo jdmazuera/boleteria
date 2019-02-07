@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2">
+        <h5>Eventos</h5>
+    </div>
+    <div class="col-md-1 offset-md-8">
+        <button class="btn btn-primary btn-sm" type="button">Crear Usuario</button>
+    </div>
+</div>
+
+<hr>
+<form>
+    <div class="row">
+        <div class="col-md-5 form-group input-group">
+            <input type="text" class="form-control" id="search_field" placeholder="Buscar A">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table" id="users_table" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.event_type }}</td>
+        <td>{{ event.date }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
