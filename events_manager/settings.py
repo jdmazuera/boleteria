@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'events_manager.core',
     'events_manager.event',
+    'events_manager.ticket',
     'crispy_forms'
 ]
 
@@ -128,6 +129,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'events_manager/frontend'
+STATIC_ROOT = 'frontend'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

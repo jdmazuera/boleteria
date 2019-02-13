@@ -4,6 +4,8 @@ from events_manager.event.views import (
         EventDetailView, EventListView, EventCreateView, EventUpdateView, EventDeleteView
     )
 
+app_name = 'event'
+
 urlpatterns = [
     path('', EventListView.as_view(), name='list'),
     path('<int:pk>', EventDetailView.as_view(), name='detail'),

@@ -4,6 +4,8 @@ from events_manager.core.views import (
     IndexView, login, UserDetailView, UserListView, UserCreateView, UserUpdateView, UserDeleteView
     )
 
+app_name = 'core'
+
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('login', login, name='login'),

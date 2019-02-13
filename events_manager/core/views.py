@@ -32,7 +32,7 @@ class UserListView(ListView):
 @method_decorator(login_required, name='dispatch')
 class UserCreateView(CreateView):
     model = User
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('core:list')
     form_class = UserFrom
     verbose_name = 'Crear'
     model_name = 'Usuarios'
@@ -46,7 +46,7 @@ class UserCreateView(CreateView):
 @method_decorator(login_required, name='dispatch')
 class UserUpdateView(UpdateView):
     model = User
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('core:list')
     form_class = UserFrom
     template_name_suffix = '_update_form'
     verbose_name = 'Editar'

@@ -1,0 +1,7 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    <p>Esta seguro de eliminar el evento "{{ object }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+{% endblock %}

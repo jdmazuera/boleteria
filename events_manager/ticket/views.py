@@ -10,32 +10,32 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.views.generic import TemplateView
 
-from events_manager.event.forms import EventForm
-from events_manager.event.models import Event
+from events_manager.ticket.forms import TicketForm
+from events_manager.ticket.models import Ticket
 
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
-class EventDetailView(DetailView):
-    model = Event
+class TicketDetailView(DetailView):
+    model = Ticket
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         return context
 
 @method_decorator(login_required, name='dispatch')
-class EventListView(ListView):
-    model = Event
+class TicketListView(ListView):
+    model = Ticket
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.all()
+        context['tickets'] = Ticket.objects.all()
         return context
 
 @method_decorator(login_required, name='dispatch')
-class EventCreateView(CreateView):
-    model = Event
+class TicketCreateView(CreateView):
+    model = Ticket
     success_url = reverse_lazy('list')
-    form_class = EventForm
+    form_class = TicketForm
     verbose_name = 'Crear'
-    model_name = 'Eventos'
+    model_name = 'Tickets'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,13 +44,13 @@ class EventCreateView(CreateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-class EventUpdateView(UpdateView):
-    model = Event
+class TicketUpdateView(UpdateView):
+    model = Ticket
     success_url = reverse_lazy('list')
-    form_class = EventForm
+    form_class = TicketForm
     template_name_suffix = '_update_form'
     verbose_name = 'Editar'
-    model_name = 'Eventos'
+    model_name = 'Tickets'
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['view_name'] = self.verbose_name
@@ -58,8 +58,8 @@ class EventUpdateView(UpdateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-class EventDeleteView(DeleteView):
-    model = Event
+class TicketDeleteView(DeleteView):
+    model = Ticket
     success_url = reverse_lazy('list')
     fields = ['name']
     template_name_suffix = '_confirm_delete'

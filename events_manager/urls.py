@@ -19,5 +19,6 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path('core/', include('events_manager.core.urls')),
     path('event/', include('events_manager.event.urls')),
+    path('ticket/', include('events_manager.ticket.urls')),
     path('', RedirectView.as_view(url='core/'))
 ]

@@ -4,11 +4,11 @@ from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import *
 from crispy_forms.bootstrap import *
-from events_manager.ticket.models import Event
+from events_manager.ticket.models import Ticket
 
-class EventForm(ModelForm):
+class TicketForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(EventForm, self).__init__(*args, **kwargs)
+        super(TicketForm, self).__init__(*args, **kwargs)
         #self.fields['username'].widget.attrs.update({'class':'col-md-4'})
         #self.fields['email'].widget.attrs.update({'class':'col-md-4'})
         #self.fields['password'].widget.attrs.update({'class':'col-md-4'})
@@ -22,13 +22,13 @@ class EventForm(ModelForm):
                         css_class='col-md-6'
                     ),
                     Div(
-                        Field('event_type'),
+                        Field('price'),
                         css_class='col-md-6'
                     )
                 ),
                 Row(
                     Div(
-                        Field('capacity'),
+                        Field('event'),
                         css_class='col-md-6'
                     ),
                     Div(
@@ -44,10 +44,10 @@ class EventForm(ModelForm):
         )
 
     def save(self, *args, **kwargs):
-        return super(EventForm, self).save(*args, **kwargs)
+        return super(TicketForm, self).save(*args, **kwargs)
 
     class Meta:
-        model = Event
-        fields = ['name','event_type','capacity','date']
+        model = Ticket
+        fields = ['name','price','event','date']
     
     
