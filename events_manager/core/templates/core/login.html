@@ -51,17 +51,26 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" value="remember-me">
-                  Remember Password
+                  Recordar Password
                 </label>
               </div>
             </div>
-            <input class="btn btn-primary btn-block" value="Login" type="submit"></input>
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button class="btn btn-primary" type="submit">Entrar</button>
+              </div>
+              <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <button class="btn btn-primary"><a style="color: white; text-decoration: none ;" href="{% url 'social:begin' 'facebook' %}">Facebook Login</a></button>
+              </div>
+              <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <button class="btn btn-danger"><a style="color: white; text-decoration: none ;" href="#">Google Login</a></button>
+              </div>
+            </div>
+            <div class="text-center">
+              <a class="d-block small mt-3" href="register.html">Registrarse</a>
+            </div>
             {% csrf_token %}
           </form>
-          <div class="text-center">
-            <a class="d-block small mt-3" href="register.html">Register an Account</a>
-            <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
-          </div>
         </div>
       </div>
     </div>

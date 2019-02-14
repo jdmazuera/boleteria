@@ -37,13 +37,13 @@ class User(AbstractUser):
         return reverse_lazy('core:delete', args=[str(self.id)])
 
     def save(self,*args, **kwargs):
-        self.user_permissions.clear()
-        if self.position == 'Gerente':
-            permissions = Permission.objects.all()
-            self.user_permissions.set(permissions)
-        elif self.position == 'Cliente':
-            permissions = Permission.objects.filter(codename__in=('view_ticket','add_ticket'))
-            self.user_permissions.set(permissions)
+        # self.user_permissions.clear()
+        # if self.position == 'Gerente':
+        #     permissions = Permission.objects.all()
+        #     self.user_permissions.set(permissions)
+        # elif self.position == 'Cliente':
+        #     permissions = Permission.objects.filter(codename__in=('view_ticket','add_ticket'))
+        #     self.user_permissions.set(permissions)
         super(User, self).save(*args, **kwargs)
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
