@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth import authenticate, login as login_django
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -22,6 +22,7 @@ class UserDetailView(DetailView):
         return context
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required('user.view_user',raise_exception=False), name='dispatch')
 class UserListView(ListView):
     model = User
     def get_context_data(self,**kwargs):
@@ -73,7 +74,7 @@ class IndexView(TemplateView):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('/')
 
     if request.POST:
         if request.GET:

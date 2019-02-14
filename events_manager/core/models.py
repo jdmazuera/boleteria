@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser,Permission
+from django.contrib.contenttypes.models import ContentType
 
 class User(AbstractUser):
 
@@ -34,6 +35,16 @@ class User(AbstractUser):
     def get_absolute_delete_url(self):
         from django.urls import reverse_lazy
         return reverse_lazy('core:delete', args=[str(self.id)])
+
+    def save(self,*args, **kwargs):
+        self.user_permissions.clear()
+        if self.position == 'Gerente':
+            permissions = Permission.objects.all()
+            self.user_permissions.set(permissions)
+        elif self.position == 'Cliente':
+            permissions = Permission.objects.filter(codename__in=('view_ticket','add_ticket'))
+            self.user_permissions.set(permissions)
+        super(User, self).save(*args, **kwargs)
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
 User._meta.get_field('email').verbose_name = 'Correo Electronico'
