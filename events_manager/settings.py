@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from json import loads
+json_file = open('events_manager/secrets.json').read()
+JSON_CONFIG_FILE = loads(json_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -112,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.linkedin.LinkedinOAuth2',
     'social_core.backends.instagram.InstagramOAuth2',
+    #'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 ]
@@ -144,34 +149,26 @@ STATIC_ROOT = 'frontend'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '374629399791223'      # App ID
+SOCIAL_AUTH_FACEBOOK_KEY = JSON_CONFIG_FILE['SOCIAL_AUTH_FACEBOOK_KEY']
 
-SOCIAL_AUTH_FACEBOOK_SECRET = '18141eadca8211944c73475c17b730fb'  # App Secret
+SOCIAL_AUTH_FACEBOOK_SECRET = JSON_CONFIG_FILE['SOCIAL_AUTH_FACEBOOK_SECRET']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = JSON_CONFIG_FILE['SOCIAL_AUTH_GOOGLE_OAUTH2_KEY']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = JSON_CONFIG_FILE['SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET']
 
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
-    #'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.user.create_user',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.social_auth.associate_by_email'
 )
-
-"""
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
-
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-      'fields': 'id, name, email, link'
-}
-
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
-    ('name', 'name'),
-    ('email', 'email'),
-    ('picture', 'picture'),
-    ('link', 'profile_url'),
-]"""
