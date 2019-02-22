@@ -1,5 +1,64 @@
 {% extends 'core/base.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
-{{ object.identification }}
+<div class="row">
+    <div class="col-md-2">
+        <h1>Usuario / <small>Detalle</small> </h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-secondary" href="{% url 'core:list' %}">Volver a Lista</a>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-primary" href="{% url 'core:update' object.id %}">Editar</a>
+    </div>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Basica
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Usuario: </span></h5>  {{ object.username }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Nombre Completo: </span></h5>  {{ object.first_name }} {{ object.last_name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Email: </span></h5>  {{ object.email }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Fecha Creación: </span></h5>  {{ object.date_joined }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:5rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-address-book"></i> Informacion Contacto
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Celular: </span></h5>  {{ object.mobile }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Telefono: </span></h5>  {{ object.phone }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Dirección: </span></h5>  {{ object.address }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Cargo: </span></h5>  {{ object.position }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

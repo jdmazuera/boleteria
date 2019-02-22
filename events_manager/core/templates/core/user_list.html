@@ -8,20 +8,21 @@
 </div>
 
 <hr>
-<form>
+<form method="GET">
     <div class="row">
         <div class="col-md-5 form-group input-group">
             <input type="text" class="form-control" id="search_field" placeholder="Buscar A">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
         <div class="col-md-1 form-group">
-            <button class="btn btn-primary" type="button">Crear</button>
+            <button class="btn btn-primary">Crear</button>
         </div>
     </div>
+    {% csrf_token %}
 </form>
 <table class="table table-borderless table-hover table-responsive text-nowrap" id="users_table" width="100%" cellspacing="0">
     <thead>
@@ -29,6 +30,7 @@
             <th></th>
             <th></th>
             <th>Nombre Usuario</th>
+            <th>Nombre</th>
             <th>Fecha Creacion</th>
             <th>Email</th>
         </tr>
@@ -38,7 +40,8 @@
     <tr>
         <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ user.get_absolute_delete_url }}"></a></td>
         <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ user.get_absolute_edit_url }}"></a></td>
-        <td><a class="" href="{{ user.get_absolute_detail_url }}">{{ user.username }}</a></td>
+        <td><a class="text-dark" href="{{ user.get_absolute_detail_url }}">{{ user.username }}</a></td>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
         <td>{{ user.date_joined }}</td>
         <td>{{ user.email }}</td>
     </tr>

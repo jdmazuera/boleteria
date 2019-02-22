@@ -28,6 +28,16 @@ class UserFrom(ModelForm):
                 ),
                 Row(
                     Div(
+                        Field('first_name'),
+                        css_class='col-md-6'
+                    ),
+                    Div(
+                        Field('last_name'),
+                        css_class='col-md-6'
+                    )
+                ),
+                Row(
+                    Div(
                         Field('password'),
                         css_class='col-md-6'
                     ),
@@ -62,7 +72,7 @@ class UserFrom(ModelForm):
             ),
             ButtonHolder(
                 Submit('submit', 'Guardar', css_class='button white'),
-                Button('cancel','Cancelar')
+                HTML('<a class="btn btn-secondary" href={% url \'core:list\' %}>Cancelar</a></button>')
             )
         )
         self.fields['password'] = forms.CharField(widget=forms.PasswordInput)
@@ -73,7 +83,7 @@ class UserFrom(ModelForm):
 
     class Meta:
         model = User
-        fields = ['username','identification','email','password','address','position','phone','mobile']
+        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile']
 
 class RegistroForm(ModelForm):
     def __init__(self, *args, **kwargs):

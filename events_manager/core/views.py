@@ -26,7 +26,9 @@ class UserDetailView(DetailView):
 @method_decorator(permission_required('user.view_user',raise_exception=False), name='dispatch')
 class UserListView(ListView):
     model = User
+
     def get_context_data(self,**kwargs):
+        print(self.http_method_names)
         context = super().get_context_data(**kwargs)
         context['users'] = User.objects.all()
         return context
