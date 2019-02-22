@@ -129,6 +129,8 @@ LOGIN_REDIRECT_URL = '/core/login'
 
 LOGIN_URL='/core/login'
 
+LOGOUT_REDIRECT_URL  = '/core/login'
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

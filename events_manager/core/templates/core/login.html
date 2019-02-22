@@ -27,9 +27,17 @@
   <body class="bg-dark">
 
     <div class="container">
+      <div class="text-center text-white" style="padding-top:10rem">
+        <h1>Boleteria <span class="badge badge-secondary">Pro!</span></h1>
+      </div>
       <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
-        <div class="card-body">
+        <div class="card-header text-center"><strong>Entrar</strong></div>
+        <div class="card-body"> 
+          {% if mostrar_error_login %}
+          <div class="text-center" style="padding-bottom:1rem">
+            <span class="d-block small mt-3 text-danger"><b>El Usuario No Existe</b></span>
+          </div>
+          {% endif %}
           {% if next %}
           <form action="/core/login?next={{next}}" method="post">
           {% else %}
@@ -67,7 +75,7 @@
               </div>
             </div>
             <div class="text-center">
-              <a class="d-block small mt-3" href="register.html">Registrarse</a>
+              <a class="d-block small mt-3" href="{% url 'core:registro' %}">Registrarse</a>
             </div>
             {% csrf_token %}
           </form>

@@ -4,10 +4,9 @@ from django.db import models
 class Event(models.Model):
 
     TYPES = (
-        ('concierto','Concierto'),
-        ('cultural','Cultural'),
-        ('deportivo','Deportivo'),
-        ('clerico','Clerico')
+        ('Futbol','Futbol'),
+        ('Tenis ','Tenis '),
+        ('Béisbol','Béisbol')
     )
 
     name = models.CharField(max_length=250,blank=False,null=False,verbose_name='Nombre')

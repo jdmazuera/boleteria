@@ -47,4 +47,14 @@ class User(AbstractUser):
         super(User, self).save(*args, **kwargs)
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
+User._meta.get_field('username').help_text = 'Sin espacios ni caracteres especiales'
+User._meta.get_field('username').error_messages = {
+    'blank' : 'El Campo No Puede Estar En Blanco',
+    'invalid' : 'El Valor No Es Valido',
+    'invalid_choice' : 'Opcion No Valida',
+    'unique' : 'El Usuario Debe Ser Unico'
+}
+
 User._meta.get_field('email').verbose_name = 'Correo Electronico'
+User._meta.get_field('first_name').verbose_name = 'Nombre'
+User._meta.get_field('last_name').verbose_name = 'Apellido'

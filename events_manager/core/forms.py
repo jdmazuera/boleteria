@@ -74,5 +74,34 @@ class UserFrom(ModelForm):
     class Meta:
         model = User
         fields = ['username','identification','email','password','address','position','phone','mobile']
+
+class RegistroForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RegistroForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+        self.helper.layout = Layout(
+            Fieldset(
+                None,
+                Field('username'),
+                Field('identification'),
+                Field('first_name'),
+                Field('last_name'),
+                Field('email'),
+                Field('password')
+            ),
+            ButtonHolder(
+                Submit('submit', 'Guardar', css_class='button white'),
+                HTML('<a class="btn btn-secondary" href={% url \'core:login\' %}>Cancelar</a></button>')
+            )
+        )
+
+        self.fields['password'] = forms.CharField(widget=forms.PasswordInput)
     
+    def save(self, *args, **kwargs):
+        self.instance.set_password(self.instance.password)
+        return super(RegistroForm, self).save(*args, **kwargs)
     
+    class Meta:
+        model = User
+        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile']
