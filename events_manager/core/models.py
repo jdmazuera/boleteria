@@ -5,10 +5,10 @@ from django.contrib.contenttypes.models import ContentType
 class User(AbstractUser):
 
     POSITIONS = (
-        ('Vendedor','Vendedor'),
-        ('Cliente','Cliente'),
+        ('Gerente','Gerente'),
         ('Administrador Del Sistema','Administrador Del Sistema'),
-        ('Gerente','Gerente')
+        ('Vendedor','Vendedor'),
+        ('Cliente','Cliente')
     )
 
     identification = models.CharField(max_length=40,blank=False,null=False,default='',verbose_name='Identificación')
@@ -16,7 +16,6 @@ class User(AbstractUser):
     position = models.CharField(max_length=100,choices=POSITIONS,blank=True,null=True,verbose_name='Rol')
     phone = models.CharField(max_length=40,blank=True,null=True,verbose_name='Telefono')
     mobile = models.CharField(max_length=40,blank=True,null=True,verbose_name='Celular')
-    active = models.BooleanField(default=True,verbose_name='Activo')
     
 
     def __str__(self):
@@ -38,17 +37,44 @@ class User(AbstractUser):
         return reverse_lazy('core:delete', args=[str(self.id)])
 
     def save(self,*args, **kwargs):
-        # self.user_permissions.clear()
-        # if self.position == 'Gerente':
-        #     permissions = Permission.objects.all()
-        #     self.user_permissions.set(permissions)
-        # elif self.position == 'Cliente':
-        #     permissions = Permission.objects.filter(codename__in=('view_ticket','add_ticket'))
-        #     self.user_permissions.set(permissions)
+        self.user_permissions.clear()
+
+        if self.position == 'Administrador Del Sistema':
+            permissions = Permission.objects.all()
+            self.user_permissions.set(permissions)
+
+        elif self.position == 'Gerente':
+            permissions = Permission.objects.filter(
+                content_type_id__in=(
+                    19,
+                    20,
+                    21
+                )
+            )
+            self.user_permissions.set(permissions)
+
+        elif self.position == 'Vendedor':
+            permissions = Permission.objects.filter(
+                content_type_id__in=(
+                    20,
+                    21
+                )
+            )
+            self.user_permissions.set(permissions)
+
+        elif self.position == 'Cliente':
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket'))
+            self.user_permissions.set(permissions)
+
+        else:
+            self.position = 'Cliente'
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket'))
+            self.user_permissions.set(permissions)
+
         super(User, self).save(*args, **kwargs)
 
     def delete(self,*args, **kwargs):
-        self.active = False
+        self.is_active = False
         self.save()
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
@@ -63,3 +89,5 @@ User._meta.get_field('username').error_messages = {
 User._meta.get_field('email').verbose_name = 'Correo Electronico'
 User._meta.get_field('first_name').verbose_name = 'Nombre'
 User._meta.get_field('last_name').verbose_name = 'Apellido'
+User._meta.get_field('is_active').verbose_name = 'Activo'
+User._meta.get_field('is_active').help_text = 'Desactiva el acceso al usuario a las caracteristicas del sistema'

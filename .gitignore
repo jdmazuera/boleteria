@@ -1,3 +1,4 @@
 /frontend/
 /events_manager/**/__pycache__/**
 /events_manager/__pycache__/**
+events_manager/secrets.json

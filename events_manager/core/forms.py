@@ -71,7 +71,7 @@ class UserFrom(ModelForm):
                 ),
                 Row(
                     Div(
-                        Field('active'),
+                        Field('is_active'),
                         css_class='col-md-6'
                     )
                 )               
@@ -89,7 +89,7 @@ class UserFrom(ModelForm):
 
     class Meta:
         model = User
-        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile','active']
+        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile','is_active']
 
 class RegistroForm(ModelForm):
     def __init__(self, *args, **kwargs):

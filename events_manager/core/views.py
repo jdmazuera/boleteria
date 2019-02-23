@@ -17,6 +17,7 @@ from events_manager.core.forms import UserFrom,RegistroForm
 from events_manager.core.models import User
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required('user.view_user',raise_exception=False), name='dispatch')
 class UserDetailView(DetailView):
     model = User
     def get_context_data(self,**kwargs):
@@ -40,7 +41,7 @@ class UserListView(ListView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.filter(active=True)
+        context['users'] = User.objects.filter(is_active=True)
         return context
 
 @method_decorator(login_required, name='dispatch')
@@ -118,7 +119,7 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username,password=password)
-        if user is not None and user.active:
+        if user is not None and user.is_active:
             login_django(request,user)
             if next:
                 return HttpResponseRedirect(next)
@@ -137,11 +138,3 @@ def login(request):
 def logout(request):
     logout_django(request)
     return redirect('core:login')
-
-@login_required
-def users_index(request):
-    from events_manager.core.models import User
-    users =  User.objects.all()
-    return render(request,'core/users.html',{
-        'users':users
-    })
