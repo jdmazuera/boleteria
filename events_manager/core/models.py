@@ -16,6 +16,7 @@ class User(AbstractUser):
     position = models.CharField(max_length=100,choices=POSITIONS,blank=True,null=True,verbose_name='Rol')
     phone = models.CharField(max_length=40,blank=True,null=True,verbose_name='Telefono')
     mobile = models.CharField(max_length=40,blank=True,null=True,verbose_name='Celular')
+    active = models.BooleanField(default=True,verbose_name='Activo')
     
 
     def __str__(self):
@@ -45,6 +46,10 @@ class User(AbstractUser):
         #     permissions = Permission.objects.filter(codename__in=('view_ticket','add_ticket'))
         #     self.user_permissions.set(permissions)
         super(User, self).save(*args, **kwargs)
+
+    def delete(self,*args, **kwargs):
+        self.active = False
+        self.save()
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
 User._meta.get_field('username').help_text = 'Sin espacios ni caracteres especiales'

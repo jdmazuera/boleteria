@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login as login_django, logout as l
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.forms import Form
+from django.db.models import Q
 
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
@@ -27,10 +28,19 @@ class UserDetailView(DetailView):
 class UserListView(ListView):
     model = User
 
+    def post(self,request):
+        keyword = request.POST.get('keyword')
+        return render(
+            request,
+            'core/user_list.html',
+            {
+                'users':User.objects.filter(Q(first_name__icontains=keyword)|Q(last_name__icontains=keyword)|Q(username__icontains=keyword)|Q(identification__icontains=keyword))
+            }
+        )
+
     def get_context_data(self,**kwargs):
-        print(self.http_method_names)
         context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.all()
+        context['users'] = User.objects.filter(active=True)
         return context
 
 @method_decorator(login_required, name='dispatch')
@@ -67,7 +77,7 @@ class UserUpdateView(UpdateView):
 @method_decorator(permission_required('user.delete_user',raise_exception=False), name='dispatch')
 class UserDeleteView(DeleteView):
     model = User
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('core:list')
     fields = ['username','email','password']
     template_name_suffix = '_confirm_delete'
 
@@ -81,7 +91,6 @@ def registro(request):
         return redirect('/')
     
     if request.POST:
-        #print(request.POST)
         usuario = RegistroForm(request.POST)
         
         if usuario.is_valid():
@@ -109,7 +118,7 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username,password=password)
-        if user is not None:
+        if user is not None and user.active:
             login_django(request,user)
             if next:
                 return HttpResponseRedirect(next)

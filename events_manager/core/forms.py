@@ -68,7 +68,13 @@ class UserFrom(ModelForm):
                         Field('mobile'),
                         css_class='col-md-6'
                     )
-                )                 
+                ),
+                Row(
+                    Div(
+                        Field('active'),
+                        css_class='col-md-6'
+                    )
+                )               
             ),
             ButtonHolder(
                 Submit('submit', 'Guardar', css_class='button white'),
@@ -83,7 +89,7 @@ class UserFrom(ModelForm):
 
     class Meta:
         model = User
-        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile']
+        fields = ['username','first_name','last_name','identification','email','password','address','position','phone','mobile','active']
 
 class RegistroForm(ModelForm):
     def __init__(self, *args, **kwargs):
