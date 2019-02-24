@@ -39,8 +39,10 @@
     <tbody>
     {% for user in users %}
     <tr>
+        {% if perms.event.edit_event and perms.event.delete_event %}
         <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ user.get_absolute_delete_url }}"></a></td>
         <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ user.get_absolute_edit_url }}"></a></td>
+        {% endif %}
         <td><a class="text-dark" href="{{ user.get_absolute_detail_url }}">{{ user.username }}</a></td>
         <td>{{ user.first_name }} {{ user.last_name }}</td>
         <td>{{ user.date_joined }}</td>

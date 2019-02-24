@@ -3,6 +3,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required,permission_required
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
@@ -26,9 +27,20 @@ class EventDetailView(DetailView):
 @method_decorator(permission_required('event.view_event',raise_exception=False), name='dispatch')
 class EventListView(ListView):
     model = Event
+
+    def post(self,request):
+        keyword = request.POST.get('keyword')
+        return render(
+            request,
+            'event/event_list.html',
+            {
+                'events':Event.objects.filter(Q(name__icontains=keyword)|Q(equipo_local__icontains=keyword)|Q(equipo_visitante__icontains=keyword))
+            }
+        )
+
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.all()
+        context['events'] = Event.objects.filter(is_active=True)
         return context
 
 @method_decorator(login_required, name='dispatch')

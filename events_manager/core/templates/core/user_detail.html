@@ -8,10 +8,10 @@
 <hr>
 <div class="row">
     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-secondary" href="{% url 'core:list' %}">Volver a Lista</a>
+        <a class="btn btn-primary" href="{% url 'core:update' object.id %}">Editar</a>
     </div>
     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-primary" href="{% url 'core:update' object.id %}">Editar</a>
+        <a class="btn btn-secondary" href="{% url 'core:list' %}">Volver a Lista</a>
     </div>
     <hr>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
@@ -40,7 +40,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:5rem">
         <div class="card">
             <div class="card-header bg-secondary text-white">
-                <i class="fas fa-address-book"></i> Informacion Contacto
+                <i class="fas fa-address-book"></i> Detalles del Evento
             </div>
             <div class="card-body">
                 <div class="row">

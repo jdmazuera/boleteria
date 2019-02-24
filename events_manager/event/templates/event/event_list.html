@@ -3,40 +3,60 @@
 {% block content %}
 <div class="row">
     <div class="col-md-2">
-        <h5>Eventos</h5>
-    </div>
-    <div class="col-md-1 offset-md-8">
-        <button class="btn btn-primary btn-sm" type="button">Crear Usuario</button>
+        <h1>Eventos / <small>Lista</small> </h1>
     </div>
 </div>
 
 <hr>
-<form>
+<form method="POST">
+    {% csrf_token %}
     <div class="row">
         <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" id="search_field" placeholder="Buscar A">
+            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
+        {% if perms.event.add_event %}
+        <div class="col-md-1 form-group">
+            <a class="btn btn-primary" href="{% url 'event:create' %}">Crear Evento</a>
+        </div>
+        {% endif %}
     </div>
+    
 </form>
-<table class="table" id="event_table" width="100%" cellspacing="0">
+<table class="table table-borderless table-hover table-responsive text-nowrap" id="events_table" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Tipo</th>
+            {% if perms.event.edit_event and perms.event.delete_event %}
+            <th></th>
+            <th></th>
+            {% endif %}
+            <th>Nombre Evento</th>
+            <th>Equipo Local</th>
+            <th>Equipo Visitante</th>
             <th>Fecha</th>
+            <th>Capacidad</th>
+            <th>Cupos Restantes</th>
+            <th>Deporte</th>
         </tr>
     </thead>
     <tbody>
     {% for event in events %}
     <tr>
-        <td>{{ event.name }}</td>
-        <td>{{ event.event_type }}</td>
+        {% if perms.event.edit_event and perms.event.delete_event %}
+        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ event.get_absolute_delete_url }}"></a></td>
+        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ event.get_absolute_edit_url }}"></a></td>
+        {% endif %}
+        <td><a class="text-dark" href="{{ event.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ event.name }}</a></td>
+        <td>{{ event.equipo_local }}</td>
+        <td>{{ event.equipo_visitante }}</td>
         <td>{{ event.date }}</td>
+        <td>{{ event.capacity }}</td>
+        <td>{{ event.cupos_restantes }}</td>
+        <td>{{ event.event_type }}</td>
     </tr>
     {% endfor %}
     </tbody>

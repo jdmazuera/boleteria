@@ -68,7 +68,7 @@ class User(AbstractUser):
 
         else:
             self.position = 'Cliente'
-            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket'))
+            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','add_ticket'))
             self.user_permissions.set(permissions)
 
         super(User, self).save(*args, **kwargs)

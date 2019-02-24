@@ -27,6 +27,21 @@ class Event(models.Model):
     equipo_visitante = models.CharField(max_length=250,blank=False,null=True,verbose_name='Equipo Visitante')
     is_active = models.BooleanField(default=True,verbose_name='Activo')
 
+    @property
+    def get_absolute_detail_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy('event:detail', args=[str(self.id)])
+
+    @property
+    def get_absolute_edit_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy('event:update', args=[str(self.id)])
+
+    @property
+    def get_absolute_delete_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy('event:delete', args=[str(self.id)])
+
     def save(self,*args, **kwargs):
         if not self.pk:
             self.cupos_restantes = self.capacity

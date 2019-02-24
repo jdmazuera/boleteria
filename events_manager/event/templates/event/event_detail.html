@@ -1,5 +1,71 @@
 {% extends 'core/base.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
-{{ object }}
+<div class="row">
+    <div class="col-md-2">
+        <h1>Evento / <small>Detalle</small> </h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    {% if perms.event.edit_event %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
+    </div>
+    {% endif %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
+    </div>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Del Evento
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Nombre: </span></h5>  {{ object.name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Equipo Local: </span></h5>  {{ object.equipo_local }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Equipo Visitante: </span></h5>  {{ object.equipo_visitante }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Fecha: </span></h5>  {{ object.date }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:5rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-address-book"></i> Detalles Del Evento
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Celular: </span></h5>  {{ object.capacidad }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Telefono: </span></h5>  {{ object.cupos_restantes }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Dirección: </span></h5>  {{ object.event_type }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Cargo: </span></h5>  {{ object.division }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12">
+                        <h5><span class="font-weight-bold text-dark">Descripcion: </span></h5>  {{ object.descripcion }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

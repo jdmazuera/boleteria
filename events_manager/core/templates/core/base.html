@@ -34,7 +34,7 @@
                   Usuarios <i class="fas fa-users"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="usuarios_dropdown">
-                  <a class="dropdown-item" href="/core/user/">Consultar</a>
+                  <a class="dropdown-item" href="/core/user/">Ver</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/core/user/create">Crear</a>
                 </div>
@@ -45,9 +45,11 @@
                   Eventos <i class="fas fa-football-ball"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
-                  <a class="dropdown-item" href="/event/">Consultar</a>
+                  <a class="dropdown-item" href="/event/">Ver</a>
+                  {% if perms.event.create_event %}
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/event/create">Crear</a>
+                  {% endif %}
                 </div>
               </li>
               <li class="nav-item dropdown">

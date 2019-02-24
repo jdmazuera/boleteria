@@ -58,7 +58,7 @@ class EventForm(ModelForm):
             ),
             ButtonHolder(
                 Submit('submit', 'Guardar', css_class='button white'),
-                Button('cancel','Cancelar')
+                HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
             )
         )
     def save(self, *args, **kwargs):
