@@ -59,7 +59,7 @@ class EventCreateView(CreateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('event.edit_event',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('event.change_event',raise_exception=False), name='dispatch')
 class EventUpdateView(UpdateView):
     model = Event
     success_url = reverse_lazy('event:list')

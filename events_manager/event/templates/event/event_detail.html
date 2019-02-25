@@ -7,7 +7,7 @@
 </div>
 <hr>
 <div class="row">
-    {% if perms.event.edit_event %}
+    {% if perms.event.change_event %}
     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
         <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
     </div>
@@ -27,10 +27,10 @@
                         <h5><span class="font-weight-bold text-dark">Nombre: </span></h5>  {{ object.name }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Equipo Local: </span></h5>  {{ object.equipo_local }}
+                        <h5><span class="font-weight-bold text-dark">Equipos: </span></h5>  {{ object.equipo_local }} VS {{ object.equipo_visitante }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Equipo Visitante: </span></h5>  {{ object.equipo_visitante }}
+                        <h5><span class="font-weight-bold text-dark">Precio: </span></h5>  ${{ object.precio_ticket }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
                         <h5><span class="font-weight-bold text-dark">Fecha: </span></h5>  {{ object.date }}

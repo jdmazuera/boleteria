@@ -25,6 +25,7 @@ class Event(models.Model):
     division = models.CharField(max_length=250,blank=False,null=True,verbose_name='Division',choices=DIVISIONS)
     equipo_local = models.CharField(max_length=250,blank=False,null=True,verbose_name='Equipo Local')
     equipo_visitante = models.CharField(max_length=250,blank=False,null=True,verbose_name='Equipo Visitante')
+    precio_ticket = models.IntegerField(blank=False,null=False,default=0,verbose_name='Precio Boleto')
     is_active = models.BooleanField(default=True,verbose_name='Activo')
 
     @property
@@ -50,3 +51,6 @@ class Event(models.Model):
     def delete(self,*args, **kwargs):
         self.is_active = False
         self.save()
+
+    def __str__(self):
+        return self.name + ': ' + self.equipo_local + ' VS ' + self.equipo_visitante

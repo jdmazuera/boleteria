@@ -17,7 +17,7 @@ from events_manager.core.forms import UserFrom,RegistroForm
 from events_manager.core.models import User
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('user.view_user',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('core.view_user',raise_exception=False), name='dispatch')
 class UserDetailView(DetailView):
     model = User
     def get_context_data(self,**kwargs):
@@ -25,7 +25,7 @@ class UserDetailView(DetailView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('user.view_user',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('core.view_user',raise_exception=False), name='dispatch')
 class UserListView(ListView):
     model = User
 
@@ -45,7 +45,7 @@ class UserListView(ListView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('user.create_user',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('core.add_user',raise_exception=False), name='dispatch')
 class UserCreateView(CreateView):
     model = User
     success_url = reverse_lazy('core:list')
@@ -60,7 +60,7 @@ class UserCreateView(CreateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('user.edit_user',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('core.change_user',raise_exception=False), name='dispatch')
 class UserUpdateView(UpdateView):
     model = User
     success_url = reverse_lazy('core:list')
@@ -75,7 +75,7 @@ class UserUpdateView(UpdateView):
         return context
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('user.delete_user',raise_exception=False), name='dispatch')
+@method_decorator(permission_required('core.delete_user',raise_exception=False), name='dispatch')
 class UserDeleteView(DeleteView):
     model = User
     success_url = reverse_lazy('core:list')

@@ -9,16 +9,13 @@ from events_manager.ticket.models import Ticket
 class TicketForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(TicketForm, self).__init__(*args, **kwargs)
-        #self.fields['username'].widget.attrs.update({'class':'col-md-4'})
-        #self.fields['email'].widget.attrs.update({'class':'col-md-4'})
-        #self.fields['password'].widget.attrs.update({'class':'col-md-4'})
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Fieldset(
                 'Datos Basicos',
                 Row(
                     Div(
-                        Field('name'),
+                        Field('event'),
                         css_class='col-md-6'
                     ),
                     Div(
@@ -28,18 +25,28 @@ class TicketForm(ModelForm):
                 ),
                 Row(
                     Div(
-                        Field('event'),
+                        Field('date'),
                         css_class='col-md-6'
                     ),
                     Div(
-                        Field('date'),
+                        Field('propietario'),
                         css_class='col-md-6'
                     )
-                )                 
+                ),
+                Row(
+                    Div(
+                        Field('estado'),
+                        css_class='col-md-6'
+                    ),
+                    Div(
+                        Field('metodo_pago'),
+                        css_class='col-md-6'
+                    )
+                )         
             ),
             ButtonHolder(
                 Submit('submit', 'Guardar', css_class='button white'),
-                Button('cancel','Cancelar')
+                HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
             )
         )
 
@@ -48,6 +55,6 @@ class TicketForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['name','price','event','date']
+        fields = ['price','event','date','propietario','estado','metodo_pago']
     
     

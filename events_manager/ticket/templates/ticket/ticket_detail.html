@@ -1,5 +1,54 @@
 {% extends 'core/base.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
-{{ object }}
+<div class="row">
+    <div class="col-md-2">
+        <h1>Evento / <small>Detalle</small> </h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    {% if perms.ticket.change_ticket %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-primary" href="{% url 'ticket:update' object.id %}">Editar</a>
+    </div>
+    {% endif %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-secondary" href="{% url 'ticket:list' %}">Volver a Lista</a>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-info" href="{% url 'ticket:quote' object.id %}">Factura</a>
+    </div>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Del Boleto
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Boleto: </span></h5>  {{ object }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Evento: </span></h5>  {{ object.event.name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Equipos: </span></h5>  {{ object.event.equipo_local }} VS {{ object.event.equipo_visitante }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Fecha: </span></h5>  {{ object.date }}
+                    </div>
+                </div>
+                <div class="row" style="padding-top:2rem">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Precio: </span></h5> ${{ object.price }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Propietario: </span></h5>  {{ object.propietario }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

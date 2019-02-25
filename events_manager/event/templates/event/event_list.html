@@ -30,7 +30,7 @@
 <table class="table table-borderless table-hover table-responsive text-nowrap" id="events_table" width="100%" cellspacing="0">
     <thead>
         <tr>
-            {% if perms.event.edit_event and perms.event.delete_event %}
+            {% if perms.event.change_event and perms.event.delete_event %}
             <th></th>
             <th></th>
             {% endif %}
@@ -38,15 +38,17 @@
             <th>Equipo Local</th>
             <th>Equipo Visitante</th>
             <th>Fecha</th>
+            <th>Precio Boleta</th>
             <th>Capacidad</th>
             <th>Cupos Restantes</th>
             <th>Deporte</th>
+            <th>-------</th>
         </tr>
     </thead>
     <tbody>
     {% for event in events %}
     <tr>
-        {% if perms.event.edit_event and perms.event.delete_event %}
+        {% if perms.event.change_event and perms.event.delete_event %}
         <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ event.get_absolute_delete_url }}"></a></td>
         <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ event.get_absolute_edit_url }}"></a></td>
         {% endif %}
@@ -54,9 +56,11 @@
         <td>{{ event.equipo_local }}</td>
         <td>{{ event.equipo_visitante }}</td>
         <td>{{ event.date }}</td>
+        <td>${{ event.precio_ticket }}</td>
         <td>{{ event.capacity }}</td>
         <td>{{ event.cupos_restantes }}</td>
         <td>{{ event.event_type }}</td>
+        <td><a class="btn btn-success" href="{% url 'ticket:create' %}?event={{ event.id }}"><i class="fas fa-shopping-cart"></i> Comprar Boleto</a></td>
     </tr>
     {% endfor %}
     </tbody>

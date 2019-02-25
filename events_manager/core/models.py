@@ -37,6 +37,8 @@ class User(AbstractUser):
         return reverse_lazy('core:delete', args=[str(self.id)])
 
     def save(self,*args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        
         self.user_permissions.clear()
 
         if self.position == 'Administrador Del Sistema':
@@ -51,6 +53,8 @@ class User(AbstractUser):
                     21
                 )
             )
+            for permision in permissions:
+                print(permision)
             self.user_permissions.set(permissions)
 
         elif self.position == 'Vendedor':
@@ -63,12 +67,12 @@ class User(AbstractUser):
             self.user_permissions.set(permissions)
 
         elif self.position == 'Cliente':
-            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket'))
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','view_own_ticket'))
             self.user_permissions.set(permissions)
 
         else:
             self.position = 'Cliente'
-            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','add_ticket'))
+            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','view_user','view_own_ticket'))
             self.user_permissions.set(permissions)
 
         super(User, self).save(*args, **kwargs)
@@ -76,6 +80,9 @@ class User(AbstractUser):
     def delete(self,*args, **kwargs):
         self.is_active = False
         self.save()
+
+    def __str__(self):
+        return self.get_full_name()
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
 User._meta.get_field('username').help_text = 'Sin espacios ni caracteres especiales'

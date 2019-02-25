@@ -19,7 +19,7 @@ class EventForm(ModelForm):
                         css_class='col-md-4'
                     ),
                     Div(
-                        Field('descripcion'),
+                        Field('precio_ticket'),
                         css_class='col-md-4'
                     ),
                     Div(
@@ -54,6 +54,12 @@ class EventForm(ModelForm):
                         Field('is_active'),
                         css_class='col-md-4'
                     )
+                ),
+                Row(
+                    Div(
+                        Field('descripcion'),
+                        css_class='col-md-12'
+                    )
                 )             
             ),
             ButtonHolder(
@@ -66,6 +72,6 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
-        fields = ['name','descripcion','event_type','capacity','date','division','equipo_local','equipo_visitante','is_active']
+        fields = ['name','descripcion','event_type','capacity','date','division','equipo_local','equipo_visitante','is_active','precio_ticket']
     
     

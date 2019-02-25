@@ -3,40 +3,61 @@
 {% block content %}
 <div class="row">
     <div class="col-md-2">
-        <h5>Tickets</h5>
-    </div>
-    <div class="col-md-1 offset-md-8">
-        <button class="btn btn-primary btn-sm" type="button">Crear Usuario</button>
+        <h1>Mis Boletos / <small>Lista</small> </h1>
     </div>
 </div>
 
 <hr>
-<form>
+<form method="POST">
+    {% csrf_token %}
     <div class="row">
         <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" id="search_field" placeholder="Buscar A">
+            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
+        {% if perms.ticket.add_ticket %}
+        <div class="col-md-1 form-group">
+            <a class="btn btn-primary" href="{% url 'event:list' %}">Comprar Otro Boleto</a>
+        </div>
+        {% endif %}
     </div>
+    
 </form>
-<table class="table" id="ticket_table" width="100%" cellspacing="0">
+<table class="table table-borderless table-hover table-responsive text-nowrap" id="ticket_table" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
+            {% if perms.ticket.change_ticket and perms.ticket.delete_ticket %}
+            <th></th>
+            <th></th>
+            {% endif %}
+            <th>Boleto</th>
+            <th>Nombre Evento</th>
+            <th>Equipo Local</th>
+            <th>Equipo Visitante</th>
             <th>Fecha</th>
+            <th>Precio</th>
+            <th>Propietario</th>
+            <th>-------</th>
         </tr>
     </thead>
     <tbody>
-    {% for ticket in tickets %}
+    {% for ticket in object_list %}
     <tr>
-        <td>{{ ticket.name }}</td>
-        <td>{{ ticket.price }}</td>
+        {% if perms.ticket.change_ticket and perms.ticket.delete_ticket %}
+        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ ticket.get_absolute_delete_url }}"></a></td>
+        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ ticket.get_absolute_edit_url }}"></a></td>
+        {% endif %}
+        <td><a class="text-dark" href="{{ ticket.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ ticket }}</a></td>
+        <td>{{ ticket.event.name }}</td>
+        <td>{{ ticket.event.equipo_local }}</td>
+        <td>{{ ticket.event.equipo_visitante }}</td>
         <td>{{ ticket.date }}</td>
+        <td>${{ ticket.price }}</td>
+        <td>{{ ticket.propietario }}</td>
     </tr>
     {% endfor %}
     </tbody>

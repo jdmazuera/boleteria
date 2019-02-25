@@ -28,15 +28,15 @@
         </button>
         <div class="collapse navbar-collapse" id="barra_navegacion">
             <ul class="navbar-nav ">
-              {% if perms.user.delete_user and perms.user.create_user %}
+              {% if perms.core.delete_user and perms.core.add_user %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="usuarios_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Usuarios <i class="fas fa-users"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="usuarios_dropdown">
-                  <a class="dropdown-item" href="/core/user/">Ver</a>
+                  <a class="dropdown-item" href="{% url 'core:list' %}">Ver</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/core/user/create">Crear</a>
+                  <a class="dropdown-item" href="{% url 'core:create' %}">Crear</a>
                 </div>
               </li>
               {% endif %}
@@ -45,10 +45,10 @@
                   Eventos <i class="fas fa-football-ball"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
-                  <a class="dropdown-item" href="/event/">Ver</a>
-                  {% if perms.event.create_event %}
+                  <a class="dropdown-item" href="{% url 'event:list' %}">Ver</a>
+                  {% if perms.event.add_event %}
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/event/create">Crear</a>
+                  <a class="dropdown-item" href="{% url 'event:create' %}">Crear</a>
                   {% endif %}
                 </div>
               </li>
@@ -57,9 +57,7 @@
                   Boletos <i class="fas fa-ticket-alt"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="ticket_dropdown">
-                  <a class="dropdown-item" href="/event/">Consultar</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/event/create">Comprar</a>
+                  <a class="dropdown-item" href="{% url 'ticket:list' %}">Mis Compras</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
