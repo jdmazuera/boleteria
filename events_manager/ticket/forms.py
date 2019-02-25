@@ -45,7 +45,7 @@ class TicketForm(ModelForm):
                 )         
             ),
             ButtonHolder(
-                Submit('submit', 'Guardar', css_class='button white'),
+                Submit('submit', 'Comprar', css_class='button white'),
                 HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
             )
         )
