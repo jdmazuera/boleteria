@@ -29,11 +29,11 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
                     <div class="card">
-                        <div class="card-header bg-secondary text-white">
+                        <div class="card-header bg-primary text-white">
                             <i class="fas fa-info-circle"></i> Factura {{ object }}
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row" style="padding-top: 2rem">
                                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
                                     <strong><span class="font-weight-bold text-dark">Evento: </span></strong>  {{ object.event.name }}
                                 </div>
@@ -47,7 +47,7 @@
                                     <strong><span class="font-weight-bold text-dark">Comprador C.C.: </span></strong>  {{ object.propietario.identification }}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="padding-top: 2rem">
                                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
                                     <strong><span class="font-weight-bold text-dark">Comprador Nombre: </span></strong>  {{ object.propietario }}
                                 </div>
@@ -61,11 +61,49 @@
                                     <strong><span class="font-weight-bold text-dark">Metodo De Pago</span></strong>  {{ object.metodo_pago }}
                                 </div>
                             </div>
+                            <div class="row justify-content-start" style="padding-top: 2rem">
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                                    <table class="table table-unbordered">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    Subtotal:
+                                                </th>
+                                                <td class="text-right">
+                                                    $ {{ object.subtotal }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    IVA:
+                                                </th>
+                                                <td class="text-right">
+                                                    $ {{ object.iva }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    Total:
+                                                </th>
+                                                <td class="text-right">
+                                                    $ {{ object.price }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-9 col-lg-9 col-xg-9 text-center">
+                                    <h3>Boleteria <span class="badge badge-primary">Pro!</span></a></h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xg-3" style="padding-top:2rem">
                     <button class="btn btn-primary no-print" onclick="print()">Imprimir</button>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xg-3" style="padding-top:2rem">
+                    <a class="btn btn-secondary no-print" href="{{ object.get_absolute_detail_url }}"">Cancelar</a>
                 </div>
             </div>
         </div>

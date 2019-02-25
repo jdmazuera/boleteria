@@ -29,6 +29,13 @@ class Ticket(models.Model):
     propietario = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=True,related_name='propietario',error_messages=error_messages)
     is_active = models.BooleanField(default=True,verbose_name='Activo')
     metodo_pago = models.CharField(max_length=250,blank=False,null=False,verbose_name='Metodo De Pago',choices=METODOS_PAGO,default='Efectivo',error_messages=error_messages)
+    iva = models.FloatField(blank=True,null=True,verbose_name='IVA')
+    subtotal = models.FloatField(blank=True,null=True,verbose_name='Subtotal')
+
+    def save(self,*args, **kwargs):
+        self.iva = self.price * 0.19
+        self.subtotal = self.price * 0.81
+        super(Ticket, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('ticket:detail', kwargs={'pk': self.pk})
