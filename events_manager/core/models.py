@@ -47,21 +47,14 @@ class User(AbstractUser):
 
         elif self.position == 'Gerente':
             permissions = Permission.objects.filter(
-                content_type_id__in=(
-                    19,
-                    20,
-                    21
-                )
-            )
+                content_type__model__in=('event','ticket','user')
+            ).exclude(codename='view_own_ticket')
             self.user_permissions.set(permissions)
 
         elif self.position == 'Vendedor':
             permissions = Permission.objects.filter(
-                content_type_id__in=(
-                    20,
-                    21
-                )
-            )
+                content_type__model__in=('ticket','user')
+            ).exclude(codename__in=('view_report','view_own_ticket'))
             self.user_permissions.set(permissions)
 
         elif self.position == 'Cliente':
