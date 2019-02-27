@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'events_manager.core',
     'events_manager.event',
     'events_manager.ticket',
+    'events_manager.report',
     'crispy_forms',
     'social_django'
 ]

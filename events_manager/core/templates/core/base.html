@@ -16,6 +16,11 @@
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- FontAwesome core CSS -->
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Core plugin AngularJS-->
+    <script src="{% static 'vendor/angularjs/angular.min.js' %}"></script>
+    <script src="{% static 'vendor/angularjs/angular-cookies.min.js' %}"></script>
+    <script src="{% static 'vendor/angularjs/angular-sanitize.min.js' %}"></script>
+    <script src="{% static 'core/core.js' %}"></script>
 
   </head>
 
@@ -73,7 +78,7 @@
       </nav>
     </header>
     <div id="content-wrapper" style="padding-top:2rem">
-      <div class="container-fluid">
+      <div ng-app="boleteriaApp" class="container-fluid">
       {% block content %}
       
       {% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<script src="{% static 'report/report_controller.js' %}"></script>
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'vendor/angular-chart/angular-chart.js' %}"></script>
+
+<div ng-controller="sellByEventController" ng-init="init({{ initial_params }})">
+    <div class="page-header">
+        <h1>Reporte / <small>Ventas Por Evento</small></h1>
+    </div>
+    <hr>
+    <form>
+        <div class="row">
+            <div class="from-group col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                <label><b>Comprador</b></label>
+                <select class="form-control" ng-model="filtros.comprador" ng-options="user[1] for user in params.users_list"></select>
+            </div>
+            <div class="from-group col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                <label><b>Evento</b></label>
+                <select class="form-control" ng-model="filtros.evento" ng-options="event[1] for event in params.events_list"></select>
+            </div>
+            <div class="from-group col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                <label><b>Fecha Compra Inicio</b></label>
+                <input class="form-control" ng-model="filtros.fecha_inicial" type="date"></input>
+            </div>
+            <div class="from-group col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                <label><b>Fecha Compra Fin</b></label>
+                <input class="form-control" ng-model="filtros.fecha_final" type="date"></input>
+            </div>
+        </div>
+        <div class="row" style="padding-top:2rem">
+            <div class="from-group col-xs-12 col-sm-4 col-md-2 col-lg-2 col-xg-2">
+                <button class="from-control btn btn-primary" ng-click="fetchData()">Filtrar</button>
+            </div>
+            <div class="from-group col-xs-12 col-sm-4 col-md-2 col-lg-2 col-xg-2">
+                <button class="from-control btn btn-primary" ng-click="cleanFilters()">Limpiar</button>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+    <div class="row justify-content-center" style="padding-top:2rem">
+        <div class="from-group col-xs-7 col-sm-7 col-md-7 col-lg-7 col-xg-7">
+            <canvas 
+                id="bar" 
+                class="chart chart-bar"
+                chart-data="graph.data" 
+                chart-labels="graph.labels" 
+                chart-series="graph.series">
+            </canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

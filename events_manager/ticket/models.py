@@ -31,6 +31,7 @@ class Ticket(models.Model):
     metodo_pago = models.CharField(max_length=250,blank=False,null=False,verbose_name='Metodo De Pago',choices=METODOS_PAGO,default='Efectivo',error_messages=error_messages)
     iva = models.FloatField(blank=True,null=True,verbose_name='IVA')
     subtotal = models.FloatField(blank=True,null=True,verbose_name='Subtotal')
+    fecha_compra = models.DateField(default=now,blank=False,null=False,verbose_name='Fecha Compra',error_messages=error_messages)
 
     def save(self,*args, **kwargs):
         self.iva = self.price * 0.19
