@@ -4,5 +4,5 @@ from events_manager.report.views import sell_by_event
 app_name = 'report'
 
 urlpatterns = [
-    path('sell_by_event', sell_by_event, name='list')
+    path('sell_by_event', sell_by_event, name='sell_by_event')
 ]

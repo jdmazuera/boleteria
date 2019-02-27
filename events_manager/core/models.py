@@ -53,8 +53,6 @@ class User(AbstractUser):
                     21
                 )
             )
-            for permision in permissions:
-                print(permision)
             self.user_permissions.set(permissions)
 
         elif self.position == 'Vendedor':
@@ -83,6 +81,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.get_full_name()
+    
+    class Meta:
+        permissions = [
+            ("view_report", "Can View Report Module")
+        ]
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'
 User._meta.get_field('username').help_text = 'Sin espacios ni caracteres especiales'
