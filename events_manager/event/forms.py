@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import *
 from crispy_forms.bootstrap import *
-from events_manager.ticket.models import Event
+from events_manager.event.models import Event
 
 class EventForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -72,6 +72,6 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
-        fields = ['name','descripcion','event_type','capacity','date','division','equipo_local','equipo_visitante','is_active','precio_ticket']
+        fields = ['name','descripcion','event_type','date']
     
     

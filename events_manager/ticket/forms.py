@@ -55,6 +55,6 @@ class TicketForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['price','event','date','propietario','estado','metodo_pago']
+        fields = ['price']
     
     

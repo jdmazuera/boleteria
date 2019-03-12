@@ -102,9 +102,9 @@ class BaseModel(models.Model):
     delete_view_name = None
 
 
-    user_creator = models.ForeignKey(to=User,related_name='user_creator',on_delete=models.CASCADE,verbose_name='Usuario Creador')
+    user_creator = models.ForeignKey(to=User,on_delete=models.CASCADE,verbose_name='Usuario Creador',null=True,blank=False)
     is_active = models.BooleanField(default=True,verbose_name='Activo')
-    creation_date = models.DateTimeField(default=now,verbose_name='Fecha De Creación')
+    creation_date = models.DateTimeField(default=now,verbose_name='Fecha De Creación',null=True,blank=False)
 
     @property
     def get_absolute_detail_url(self):
@@ -124,6 +124,9 @@ class BaseModel(models.Model):
     def delete(self,*args, **kwargs):
         self.is_active = False
         self.save()
+
+    def true_delete(self,*args, **kwargs):
+        super().delete()
 
     class Meta:
         abstract = True
