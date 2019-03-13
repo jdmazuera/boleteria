@@ -12,6 +12,8 @@ class Event(BaseModel):
     descripcion = models.TextField(blank=True,null=True,verbose_name='Descripcion')
     event_type = models.ForeignKey(to=TypeEvent,on_delete=models.CASCADE,verbose_name='Tipo De Evento',related_name='event_type_event',null=True,blank=False)
     date = models.DateField(blank=False,null=False,default=now,verbose_name='Fecha Evento')
+    ready_for_sale = models.BooleanField(default=False,verbose_name='Listo Para Vender')
+    image_card = models.ImageField(upload_to = 'event_images/', default = 'event_images/default_image.png',verbose_name='Imagen Evento')
 
     def __str__(self):
         return self.name

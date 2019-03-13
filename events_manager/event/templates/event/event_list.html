@@ -1,69 +1,51 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<form class="" method="POST">
 <div class="row">
-    <div class="col-md-2">
-        <h1>Eventos / <small>Lista</small> </h1>
+    <div class="col-md-8">
+        <h1>Eventos Disponibles</h1>
     </div>
-</div>
-
-<hr>
-<form method="POST">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-        {% if perms.event.add_event %}
-        <div class="col-md-1 form-group">
-            <a class="btn btn-primary" href="{% url 'event:create' %}">Crear Evento</a>
-        </div>
-        {% endif %}
+    <div class="col-md-4">
+        
+            {% csrf_token %}
+            <div class="form-group input-group">
+                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if perms.event.add_event %}
+                    <a class="btn btn-secondary" href="{% url 'event:create' %}">Crear Evento</a>
+                    {% endif %}
+                </div>
+            </div>            
+        </form>
     </div>
     
+</div>
 </form>
+
+<hr>
+
+
 <table class="table table-borderless table-hover table-responsive text-nowrap" id="events_table" width="100%" cellspacing="0">
-    <thead>
-        <tr>
-            {% if perms.event.change_event and perms.event.delete_event %}
-            <th></th>
-            <th></th>
-            {% endif %}
-            <th>Nombre Evento</th>
-            <th>Equipo Local</th>
-            <th>Equipo Visitante</th>
-            <th>Fecha</th>
-            <th>Precio Boleta</th>
-            <th>Capacidad</th>
-            <th>Cupos Restantes</th>
-            <th>Deporte</th>
-            <th>-------</th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="row">
     {% for event in events %}
-    <tr>
-        {% if perms.event.change_event and perms.event.delete_event %}
-        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ event.get_absolute_delete_url }}"></a></td>
-        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ event.get_absolute_edit_url }}"></a></td>
-        {% endif %}
-        <td><a class="text-dark" href="{{ event.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ event.name }}</a></td>
-        <td>{{ event.equipo_local }}</td>
-        <td>{{ event.equipo_visitante }}</td>
-        <td>{{ event.date }}</td>
-        <td>${{ event.precio_ticket }}</td>
-        <td>{{ event.capacity }}</td>
-        <td>{{ event.cupos_restantes }}</td>
-        <td>{{ event.event_type }}</td>
-        <td><a class="btn btn-success" href="{% url 'ticket:create' %}?event={{ event.id }}"><i class="fas fa-shopping-cart"></i> Comprar Boleto</a></td>
-    </tr>
+        <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xg-2" style="padding-top:2rem">
+            <a class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
+                <img class="card-img-top" src="{{ event.image_card.url }}">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.get_absolute_detail_url }}"></a>{{ event.name }}</a></h4></li>
+                        <li class="list-group-item">{{ event.event_type }}</li>
+                        <li class="list-group-item">Fecha: {{ event.date }}</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
     {% endfor %}
-    </tbody>
+    </div>
 </table>
 
 {% endblock %}

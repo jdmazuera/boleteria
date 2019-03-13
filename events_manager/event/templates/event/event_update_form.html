@@ -5,7 +5,5 @@
     <h1>{{ model }} / <small>{{ view_name }}</small></h1>
 </div>
 <hr>
-<form method="post">{% csrf_token %}
-    {% crispy form %}
-</form>
+{% crispy form %}
 {% endblock %}

@@ -177,3 +177,9 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 TAX_PERCENTAGE = 0.19
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+TIME_ZONE = 'America/Bogota'
+LANGUAGE_CODE = 'es-COL'

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.urls import path,include
 from django.views.generic.base import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('core/', include('events_manager.core.urls')),
@@ -27,3 +29,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='core/')),
     path('social-auth/', include('social_django.urls', namespace="social"))
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

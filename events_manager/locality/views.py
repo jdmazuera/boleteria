@@ -27,7 +27,7 @@ class LocalityListView(ListView):
             request,
             'locality/locality_list.html',
             {
-                'localities':Locality.objects.filter(Q(name__icontains=keyword)|Q(description__icontains=keyword))
+                'localities':Locality.objects.filter(Q(name__icontains=keyword)|Q(description__icontains=keyword)|Q(event_type__name__icontains=keyword))
             }
         )
 
