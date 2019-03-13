@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import events_manager.core.validators
 
 
 class Migration(migrations.Migration):
@@ -17,19 +16,17 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Receipt',
+            name='TypeEvent',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('is_active', models.BooleanField(default=True, verbose_name='Activo')),
                 ('creation_date', models.DateTimeField(default=django.utils.timezone.now, null=True, verbose_name='Fecha De Creación')),
-                ('total', models.FloatField(default=0, validators=[events_manager.core.validators.validator_greater_zero], verbose_name='Total')),
-                ('subtotal', models.FloatField(default=0, validators=[events_manager.core.validators.validator_greater_zero], verbose_name='Subtotal')),
-                ('tax', models.FloatField(default=0, validators=[events_manager.core.validators.validator_greater_zero], verbose_name='Impuesto')),
-                ('salesman', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_creator', to=settings.AUTH_USER_MODEL, verbose_name='Vendedor')),
+                ('name', models.CharField(max_length=250, verbose_name='Nombre')),
+                ('description', models.TextField(blank=True, null=True, verbose_name='Descripcion')),
                 ('user_creator', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Usuario Creador')),
             ],
             options={
-                'permissions': [('view_own_receipt', 'Can View Only Own Receipts')],
+                'abstract': False,
             },
         ),
     ]

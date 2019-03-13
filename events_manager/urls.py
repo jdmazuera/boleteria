@@ -22,6 +22,8 @@ urlpatterns = [
     path('ticket/', include('events_manager.ticket.urls')),
     path('receipt/', include('events_manager.receipt.urls')),
     path('report/', include('events_manager.report.urls')),
+    path('type_event/', include('events_manager.type_event.urls')),
+    path('locality/', include('events_manager.locality.urls')),
     path('', RedirectView.as_view(url='core/')),
     path('social-auth/', include('social_django.urls', namespace="social"))
 ]

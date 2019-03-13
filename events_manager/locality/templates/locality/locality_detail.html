@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-2">
+        <h1>Localidad / <small>Detalle</small> </h1>
+    </div>
+</div>
+<hr>
+<div class="row">
+    {% if perms.locality.change_locality %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-primary" href="{% url 'type_event:update' object.id %}">Editar</a>
+    </div>
+    {% endif %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-secondary" href="{% url 'type_event:list' %}">Volver a Lista</a>
+    </div>
+    <hr>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <i class="fas fa-info-circle"></i> Información De La Localidad
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Nombre: </span></h5>  {{ object.name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Descripción: </span></h5>  {{ object.description }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
+                        <h5><span class="font-weight-bold text-dark">Tipo De Evento: </span></h5>  {{ object.event_type }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

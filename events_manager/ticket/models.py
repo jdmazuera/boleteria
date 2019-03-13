@@ -1,5 +1,5 @@
 from django.db import models
-from events_manager.event.models import EventLocality
+from events_manager.event_locality.models import EventLocality
 from events_manager.core.models import User,BaseModel
 from events_manager.receipt.models import Receipt
 from django.utils.timezone import now

@@ -45,6 +45,34 @@
                 </div>
               </li>
               {% endif %}
+              {% if perms.typeevent.view_typeevent %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Tipo Evento <i class="fas fa-football-ball"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
+                  <a class="dropdown-item" href="{% url 'type_event:list' %}">Ver</a>
+                  {% if perms.typeevent.add_typeevent %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'type_event:create' %}">Crear</a>
+                  {% endif %}
+                </div>
+              </li>
+              {% endif %}
+              {% if perms.locality.view_locality %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Localidad <i class="fas fa-football-ball"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
+                  <a class="dropdown-item" href="{% url 'locality:list' %}">Ver</a>
+                  {% if perms.locality.add_locality %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'locality:create' %}">Crear</a>
+                  {% endif %}
+                </div>
+              </li>
+              {% endif %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Eventos <i class="fas fa-football-ball"></i>

@@ -9,12 +9,25 @@ from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
-from django.views.generic import TemplateView,View
 
 from events_manager.event.forms import EventForm
 from events_manager.event.models import Event
 
-# Create your views here.
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required('event.add_typeevent',raise_exception=False), name='dispatch')
+class EventCreateView(CreateView):
+    model = Event
+    success_url = reverse_lazy('event:list')
+    form_class = EventForm
+    verbose_name = 'Crear'
+    model_name = 'Eventos'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_name'] = self.verbose_name
+        context['model'] = self.model_name
+        return context
+
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.view_event',raise_exception=False), name='dispatch')
 class EventDetailView(DetailView):
@@ -45,7 +58,7 @@ class EventListView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_event',raise_exception=False), name='dispatch')
-class EventCreateView2(CreateView):
+class EventCreateView(CreateView):
     model = Event
     success_url = reverse_lazy('event:list')
     form_class = EventForm
@@ -57,34 +70,6 @@ class EventCreateView2(CreateView):
         context['view_name'] = self.verbose_name
         context['model'] = self.model_name
         return context
-
-
-@method_decorator(login_required, name='dispatch')
-@method_decorator(permission_required('event.add_event',raise_exception=False), name='dispatch')
-class EventCreateView(View):
-
-    form = EventForm()
-    view_name = 'Crear'
-    model = 'Eventos'
-    
-    def get(self,request, *args, **kwargs):
-        return render(
-            request,
-            'event/event_form.html',
-            {
-                'form' : self.form,
-                'model' : self.model,
-                'view_name' : self.view_name
-            }
-        )
-    
-    def post(self,request, *args, **kwargs):
-        form = EventForm(request)
-
-        if form.is_valid():
-            form.save()
-
-        return redirect(to=reverse_lazy('event:list'))
         
 
 @method_decorator(login_required, name='dispatch')

@@ -128,5 +128,8 @@ class BaseModel(models.Model):
     def true_delete(self,*args, **kwargs):
         super().delete()
 
+    def save(self,*args, **kwargs):
+        super().save(*args, **kwargs)
+
     class Meta:
         abstract = True
