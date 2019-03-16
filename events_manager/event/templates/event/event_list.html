@@ -33,16 +33,16 @@
     <div class="row">
     {% for event in events %}
         <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xg-2" style="padding-top:2rem">
-            <a class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
+            <div class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
                 <img class="card-img-top" src="{{ event.image_card.url }}">
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.get_absolute_detail_url }}"></a>{{ event.name }}</a></h4></li>
+                        <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.get_absolute_detail_url }}">{{ event.name }}</a></h4></li>
                         <li class="list-group-item">{{ event.event_type }}</li>
                         <li class="list-group-item">Fecha: {{ event.date }}</li>
                     </ul>
                 </div>
-            </a>
+            </div>
         </div>
     {% endfor %}
     </div>

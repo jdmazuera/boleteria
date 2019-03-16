@@ -1,4 +1,4 @@
-var boleteria = angular.module('boleteriaApp',['chart.js','ngCookies','ngSanitize'], function($interpolateProvider){
+var boleteria = angular.module('boleteriaApp',['ngCookies','ngSanitize'], function($interpolateProvider){
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
 });

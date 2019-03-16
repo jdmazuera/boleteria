@@ -12,6 +12,11 @@
         <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
     </div>
     {% endif %}
+    {% if perms.eventlocality.add_eventlocality %}
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
+        <a class="btn btn-primary" href="{% url 'eventlocality:create' object.id %}">Asignar Localidades</a>
+    </div>
+    {% endif %}
     <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
         <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
     </div>

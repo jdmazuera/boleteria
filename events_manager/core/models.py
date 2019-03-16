@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser,Permission
 from django.contrib.contenttypes.models import ContentType
 from django.utils.timezone import now
+from django_currentuser.db.models import CurrentUserField
 
 class User(AbstractUser):
 
@@ -102,7 +103,7 @@ class BaseModel(models.Model):
     delete_view_name = None
 
 
-    user_creator = models.ForeignKey(to=User,on_delete=models.CASCADE,verbose_name='Usuario Creador',null=True,blank=False)
+    user_creator = CurrentUserField(verbose_name='Usuario Creador')
     is_active = models.BooleanField(default=True,verbose_name='Activo')
     creation_date = models.DateTimeField(default=now,verbose_name='Fecha De Creación',null=True,blank=False)
 
