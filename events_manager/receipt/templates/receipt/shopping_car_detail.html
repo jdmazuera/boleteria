@@ -12,7 +12,7 @@
 </div>
 <hr>
 <div class="row" ng-controller="shoppingCarController" ng-init="init({{ shopping_car_detail }})">
-    <table class="table table-bordered rounded table-lg">
+    <table class="table table-responsive">
         <thead class="thead-light">
             <tr>
                 <th>
@@ -22,10 +22,10 @@
                     Localidad
                 </th>
                 <th class="text-right">
-                    Cantidad
+                    Precio
                 </th>
                 <th class="text-right">
-                    Precio
+                    Cantidad
                 </th>
                 <th class="text-right">
                     Subtotal
@@ -36,6 +36,9 @@
                 <th class="text-right">
                     Total
                 </th>
+                <th class="text-right">
+                    
+                </th>
             </tr>
         </thead>
         <tbody ng-repeat="item in shopping_car">
@@ -44,19 +47,43 @@
                 </td>
                 <td ng-bind="item.locality_name">
                 </td>
-                <td class="text-right">
-                    <input type="number" class="form-control w-25 float-right text-right" ng-model="item.quantity">
-                </td>
                 <td class="text-right" ng-bind="item.price | currency:'$' ">
                 </td>
-                <td class="text-right" ng-bind="item.subtotal | currency:'$' ">
+                <td class="text-right">
+                    <input type="number" class="form-control w-50 float-right text-right" ng-model="item.quantity">
                 </td>
-                <td class="text-right" ng-bind="item.impuesto | currency:'$' ">
+                <td class="text-right" ng-bind="(item.price * item.quantity) | currency:'$' ">
                 </td>
-                <td class="text-right" ng-bind="item.total | currency:'$' ">
+                <td class="text-right" ng-bind="(item.price * item.quantity) * item.tax | currency:'$' ">
+                </td>
+                <td class="text-right" ng-bind="((item.price * item.quantity) + (item.price * item.quantity) * item.tax) | currency:'$' ">
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger btn-sm fas fa-times" href="#" ng-click="deleteItem($index)"></a>
                 </td>
             </tr>
         </tbody>
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    <b>Valor Total</b>
+                </th>
+                <th>
+                </th>   
+                <th class="text-right">
+                </th>
+                <th class="text-right" ng-bind="getTotalQuantity()">
+                </th>
+                <th class="text-right" ng-bind="getSubtotal() | currency:'$'">
+                </th>
+                <th class="text-right" ng-bind="getTax() | currency:'$'">
+                </th>
+                <th class="text-right" ng-bind="getTotal() | currency:'$'">
+                </th>
+                <th class="text-right">
+                </th>
+            </tr>
+        </thead>
     </table>
 </div>
 <style>

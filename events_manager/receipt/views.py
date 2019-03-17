@@ -42,6 +42,20 @@ class AddToShoppingCarView(View):
 
         return HttpResponse('fail')
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required('receipt.buy',raise_exception=False), name='dispatch')
+class UpdateShoppingCarView(View):
+    def post(self,request, *args, **kwargs):
+        if request.is_ajax():
+            body_unicode = request.body.decode('utf-8')
+            shopping_car = loads(request.session['shopping_car'])
+            index = shopping_car[0].index(int(body_unicode))
+            del shopping_car[0][index]
+            del shopping_car[1][index]
+            request.session['shopping_car'] = dumps(shopping_car)
+            return HttpResponse('success')
+        return HttpResponse('fail')
+
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('receipt.buy',raise_exception=False), name='dispatch')
@@ -65,9 +79,7 @@ class DetailShoppingCar(View):
                         'locality_name':event_locality.locality.name,
                         'quantity':shopping_car[1][index],
                         'price':event_locality.price,
-                        'subtotal':event_locality.price * shopping_car[1][index],
-                        'impuesto': event_locality.price * shopping_car[1][index] * settings.TAX_PERCENTAGE,
-                        'total': event_locality.price * shopping_car[1][index] + event_locality.price * shopping_car[1][index] * settings.TAX_PERCENTAGE
+                        'tax': settings.TAX_PERCENTAGE
                     }
                 )
             except ObjectDoesNotExist:
