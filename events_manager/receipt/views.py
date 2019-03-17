@@ -13,6 +13,7 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from json import loads,dumps
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
     
 
 @method_decorator(login_required, name='dispatch')
@@ -62,8 +63,11 @@ class DetailShoppingCar(View):
                         'event_locality_id':event_locality.id,
                         'event_name':event_locality.event.name,
                         'locality_name':event_locality.locality.name,
+                        'quantity':shopping_car[1][index],
                         'price':event_locality.price,
-                        'quantity':shopping_car[1][index]
+                        'subtotal':event_locality.price * shopping_car[1][index],
+                        'impuesto': event_locality.price * shopping_car[1][index] * settings.TAX_PERCENTAGE,
+                        'total': event_locality.price * shopping_car[1][index] + event_locality.price * shopping_car[1][index] * settings.TAX_PERCENTAGE
                     }
                 )
             except ObjectDoesNotExist:

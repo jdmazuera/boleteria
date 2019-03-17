@@ -12,20 +12,31 @@
 </div>
 <hr>
 <div class="row" ng-controller="shoppingCarController" ng-init="init({{ shopping_car_detail }})">
-    <table class="table border rounded table-lg">
+    <table class="table table-bordered rounded table-lg">
         <thead class="thead-light">
-            <th>
-                Evento
-            </th>
-            <th>
-                Localidad
-            </th>
-            <th class="text-right">
-                Precio
-            </th>
-            <th class="text-right">
-                Cantidad
-            </th>
+            <tr>
+                <th>
+                    Evento
+                </th>
+                <th>
+                    Localidad
+                </th>
+                <th class="text-right">
+                    Cantidad
+                </th>
+                <th class="text-right">
+                    Precio
+                </th>
+                <th class="text-right">
+                    Subtotal
+                </th>
+                <th class="text-right">
+                    Impuesto
+                </th>
+                <th class="text-right">
+                    Total
+                </th>
+            </tr>
         </thead>
         <tbody ng-repeat="item in shopping_car">
             <tr>
@@ -33,13 +44,25 @@
                 </td>
                 <td ng-bind="item.locality_name">
                 </td>
+                <td class="text-right">
+                    <input type="number" class="form-control w-25 float-right text-right" ng-model="item.quantity">
+                </td>
                 <td class="text-right" ng-bind="item.price | currency:'$' ">
                 </td>
-                <td class="text-right" ng-bind="item.quantity">
+                <td class="text-right" ng-bind="item.subtotal | currency:'$' ">
+                </td>
+                <td class="text-right" ng-bind="item.impuesto | currency:'$' ">
+                </td>
+                <td class="text-right" ng-bind="item.total | currency:'$' ">
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+<style>
+    .table td{
+        vertical-align: middle
+    }
+</style>
 
 {% endblock %}
