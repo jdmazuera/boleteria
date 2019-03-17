@@ -3,12 +3,14 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import *
 from crispy_forms.bootstrap import *
 from events_manager.event_locality.models import EventLocality
+from django.core.exceptions import ObjectDoesNotExist
 
 class EventLocalityForm(forms.Form):
     def __init__(self,event,*args, **kwargs):
         super(EventLocalityForm, self).__init__(*args, **kwargs)
         self.event = event
         self.helper = FormHelper()
+        self.helper.form_action = '#'
         self.helper.layout = Layout()
 
         self.helper.layout = Layout()
@@ -18,9 +20,14 @@ class EventLocalityForm(forms.Form):
         localities = event.event_type.event_type_locality.all()
 
         for locality in localities:
+            try:
+                event_locality = EventLocality.objects.get(event=event,locality_id=locality.id)
+            except ObjectDoesNotExist:
+                event_locality = EventLocality()
+
             self.fields[str(locality.id)] = forms.CharField(label='Nombre Localidad',initial=locality.name,disabled=True)
-            self.fields[str(locality.id)+'_capacity'] = forms.IntegerField(label='Capacidad',min_value=1)
-            self.fields[str(locality.id)+'_price'] = forms.IntegerField(label='Precio',min_value=1)
+            self.fields[str(locality.id)+'_capacity'] = forms.IntegerField(label='Capacidad',min_value=1,initial=event_locality.capacity)
+            self.fields[str(locality.id)+'_price'] = forms.IntegerField(label='Precio',min_value=1,initial=event_locality.price)
             self.helper.layout[0].append(
                 Row(
                     Div(
@@ -44,9 +51,6 @@ class EventLocalityForm(forms.Form):
                 HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
             )
         )
-    def save(self,*args, **kwargs):
-        print(self.fields)
-
         
         
         

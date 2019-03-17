@@ -13,6 +13,7 @@ class UserFrom(ModelForm):
         #self.fields['email'].widget.attrs.update({'class':'col-md-4'})
         #self.fields['password'].widget.attrs.update({'class':'col-md-4'})
         self.helper = FormHelper()
+        self.helper.form_action = '#'
         self.helper.layout = Layout(
             Fieldset(
                 'Datos Basicos',

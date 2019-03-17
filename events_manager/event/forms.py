@@ -10,6 +10,7 @@ class EventForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_action = '#'
         self.helper.layout = Layout(
             Fieldset(
                 'Datos Basicos',

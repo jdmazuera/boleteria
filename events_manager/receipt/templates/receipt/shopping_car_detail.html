@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+<script src="{% static 'receipt/shopping_car_controller.js' %}"></script>
+
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Carrito de Compra </span> 
+        <small><b>{{ object.name }}</b></small>
+    </h1>
+</div>
+<hr>
+<div class="row" ng-controller="shoppingCarController" ng-init="init({{ shopping_car_detail }})">
+    <table class="table border rounded table-lg">
+        <thead class="thead-light">
+            <th>
+                Evento
+            </th>
+            <th>
+                Localidad
+            </th>
+            <th class="text-right">
+                Precio
+            </th>
+            <th class="text-right">
+                Cantidad
+            </th>
+        </thead>
+        <tbody ng-repeat="item in shopping_car">
+            <tr>
+                <td ng-bind="item.event_name">
+                </td>
+                <td ng-bind="item.locality_name">
+                </td>
+                <td class="text-right" ng-bind="item.price | currency:'$' ">
+                </td>
+                <td class="text-right" ng-bind="item.quantity">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
