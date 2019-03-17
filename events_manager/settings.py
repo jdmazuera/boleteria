@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'events_manager.event',
     'events_manager.ticket',
     'events_manager.report',
+    'events_manager.receipt',
+    'events_manager.type_event',
+    'events_manager.event_locality',
+    'events_manager.locality',
     'crispy_forms',
     'social_django'
 ]
@@ -58,7 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'django_currentuser.middleware.ThreadLocalUserMiddleware'
 ]
 
 ROOT_URLCONF = 'events_manager.urls'
@@ -171,3 +176,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email'
 )
+
+TAX_PERCENTAGE = 0.19
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+TIME_ZONE = 'America/Bogota'
+LANGUAGE_CODE = 'es-COL'

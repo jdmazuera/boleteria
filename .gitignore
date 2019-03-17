@@ -1,4 +1,9 @@
 /frontend/
 /events_manager/**/__pycache__/**
+/events_manager/**/migrations/__pycache__/**
 /events_manager/__pycache__/**
 events_manager/secrets.json
+.vscode/settings.json
+.gitignore
+secrets.json
+boleteria_pro.backup

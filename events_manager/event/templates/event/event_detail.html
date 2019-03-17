@@ -1,71 +1,75 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <h1>Evento / <small>Detalle</small> </h1>
-    </div>
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Evento </span> 
+        <small><b>{{ object.name }}</b></small>
+    </h1>
 </div>
 <hr>
 <div class="row">
-    {% if perms.event.change_event %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if perms.event.change_event %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
+            </div>
+            {% endif %}
+            {% if perms.eventlocality.add_eventlocality %}
+            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                <a class="btn btn-warning" href="{% url 'eventlocality:create' object.id %}">Asignar Localidades</a>
+            </div>
+            {% endif %}
+            <div class="btn-group" role="group" aria-label="Third group">
+                    <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
-    </div>
-    <hr>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
+            <div class="card-header bg-primary text-white">
                 <i class="fas fa-info-circle"></i> Informacion Del Evento
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Nombre: </span></h5>  {{ object.name }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Nombre: </span></b>  {{ object.name }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Equipos: </span></h5>  {{ object.equipo_local }} VS {{ object.equipo_visitante }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Deporte: </span></b>  {{ object.event_type }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Precio: </span></h5>  ${{ object.precio_ticket }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Fecha: </span></b>  {{ object.date }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Fecha: </span></h5>  {{ object.date }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:5rem">
-        <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <i class="fas fa-address-book"></i> Detalles Del Evento
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Capacidad: </span></h5>  {{ object.capacidad }}
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Cupos Restantes: </span></h5>  {{ object.cupos_restantes }}
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Deporte: </span></h5>  {{ object.event_type }}
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Division: </span></h5>  {{ object.division }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12">
-                        <h5><span class="font-weight-bold text-dark">Descripcion: </span></h5>  {{ object.descripcion }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Descripcion: </span></b>  {{ object.descripcion }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="row">
+        {% for locality in  localities %}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3" style="padding-bottom:1rem">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Localidad {{ locality.locality.name }}
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Precio:</strong> ${{ locality.price }}</p>
+                        {% if locality.capacity > 0 %}
+                        <p><strong>Estado:</strong> Disponible</p>
+                        {% elif locality.capacity <= 0 %}
+                        <p><strong>Estado:</strong> Agotado</p>
+                        {% endif %}
+                        <button ng-click="addToShoppingCar('{{locality.id}}')" class="btn btn-sm btn-success"><i class="fas fa-shopping-cart"></i> Añadir Al Carrito</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    
 </div>
 {% endblock %}

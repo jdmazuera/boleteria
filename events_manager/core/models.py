@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,Permission
 from django.contrib.contenttypes.models import ContentType
+from django.utils.timezone import now
+from django_currentuser.db.models import CurrentUserField
 
 class User(AbstractUser):
 
@@ -94,3 +96,41 @@ User._meta.get_field('first_name').verbose_name = 'Nombre'
 User._meta.get_field('last_name').verbose_name = 'Apellido'
 User._meta.get_field('is_active').verbose_name = 'Activo'
 User._meta.get_field('is_active').help_text = 'Desactiva el acceso al usuario a las caracteristicas del sistema'
+
+class BaseModel(models.Model):
+    detail_view_name = None
+    edit_view_name = None
+    delete_view_name = None
+
+
+    user_creator = CurrentUserField(verbose_name='Usuario Creador')
+    is_active = models.BooleanField(default=True,verbose_name='Activo')
+    creation_date = models.DateTimeField(default=now,verbose_name='Fecha De Creación',null=True,blank=False)
+
+    @property
+    def get_absolute_detail_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy(self.detail_view_name, args=[str(self.id)])
+
+    @property
+    def get_absolute_edit_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy(self.edit_view_name, args=[str(self.id)])
+
+    @property
+    def get_absolute_delete_url(self):
+        from django.urls import reverse_lazy
+        return reverse_lazy(self.delete_view_name, args=[str(self.id)])
+
+    def delete(self,*args, **kwargs):
+        self.is_active = False
+        self.save()
+
+    def true_delete(self,*args, **kwargs):
+        super().delete()
+
+    def save(self,*args, **kwargs):
+        super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True

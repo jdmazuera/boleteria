@@ -1,8 +1,6 @@
 from django.contrib import admin
 from django.urls import path,include
-from events_manager.event.views import (
-        EventDetailView, EventListView, EventCreateView, EventUpdateView, EventDeleteView
-    )
+from events_manager.event.views import EventDetailView, EventListView, EventCreateView, EventUpdateView, EventDeleteView
 
 app_name = 'event'
 

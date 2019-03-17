@@ -10,6 +10,7 @@ class TicketForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(TicketForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_action = '#'
         self.helper.layout = Layout(
             Fieldset(
                 'Datos Basicos',
@@ -55,6 +56,6 @@ class TicketForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['price','event','date','propietario','estado','metodo_pago']
+        fields = ['price']
     
     
