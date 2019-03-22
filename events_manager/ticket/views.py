@@ -22,9 +22,6 @@ from django.db.models import Q
 @method_decorator(permission_required('ticket.view_ticket',raise_exception=False), name='dispatch')
 class TicketDetailView(DetailView):
     model = Ticket
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('ticket.view_ticket',raise_exception=False), name='dispatch')
@@ -34,34 +31,25 @@ class TicketListView(ListView):
     def post(self,request):
         keyword = request.POST.get('keyword')
 
-        if request.user.has_perm('ticket.view_own_ticket'):
-            tickets = Ticket.objects.filter(propietario=request.user)
-        else:
-            tickets = Ticket.objects.all()
-
         tickets = Ticket.objects.filter(
-            Q(event__equipo_local__icontains=keyword)|
-            Q(event__equipo_visitante__icontains=keyword)|
-            Q(event__name__icontains=keyword)|
-            Q(propietario__first_name__icontains=keyword)|
-            Q(propietario__last_name__icontains=keyword)|
-            Q(propietario__identification__icontains=keyword)
+            Q(event_locality__event__name__icontains=keyword)|
+            Q(event_locality__locality__name__icontains=keyword)
         )
 
         return render(
             request,
             'ticket/ticket_list.html',
             {
-                'tickets': tickets
+                'object_list': tickets
             }
         )
 
-    def get_queryset(self):
-        if self.request.user.has_perm('ticket.view_own_ticket'):
-            tickets = Ticket.objects.filter(propietario=self.request.user)
-        else:
-            tickets = Ticket.objects.all()
-        return tickets
+    # def get_queryset(self):
+    #     if self.request.user.has_perm('ticket.view_own_ticket'):
+    #         tickets = Ticket.objects.filter(propietario=self.request.user)
+    #     else:
+    #         tickets = Ticket.objects.all()
+    #     return tickets
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('ticket.add_ticket',raise_exception=False), name='dispatch')

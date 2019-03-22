@@ -12,9 +12,9 @@ boleteria.config(['$httpProvider', function($httpProvider) {
 boleteria.controller('boleteriaController',function($scope,$http){
 
     $scope.init = function(shopping_car){
-        $scope.shopping_car = shopping_car;
         if(shopping_car){
-            $scope.item_quantity = $scope.calculateQuantity(shopping_car[1]);
+            $scope.shopping_car = shopping_car;
+            $scope.item_quantity = $scope.shopping_car.receipt_items_quantity;
         }
         
     }
@@ -26,19 +26,11 @@ boleteria.controller('boleteriaController',function($scope,$http){
             data: event_locality
         }).then(function(response){
             $scope.shopping_car = response.data;
-            $scope.item_quantity = $scope.calculateQuantity($scope.shopping_car[1])
-            alertify.notify('El item fue añadido al carrito')
+            $scope.item_quantity = $scope.shopping_car.receipt_items_quantity;
+            alertify.success('El item fue añadido al carrito')
         },function(response){
             
         })
-    }
-
-    $scope.calculateQuantity = function(shopping_car){
-        var quantity = 0;
-        shopping_car.forEach(function(item){
-            quantity = quantity + item;
-        });
-        return quantity
     }
 
 });

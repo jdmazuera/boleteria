@@ -1,0 +1,126 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'css/no_print.css' %}" rel="stylesheet" type="text/css">
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Factura </span> 
+        <small><b>{{ object.identifier }}</b></small>
+    </h1>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Factura
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Metodo De Pago: </span></b>  {{ object.pay_method }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Identificación: </span></b>  {{ object.user_creator.identification }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Nombre: </span></b>  {{ object.user_creator.first_name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Apellido: </span></b>  {{ object.user_creator.last_name }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Fecha Y Hora: </span></b>  {{ object.creation_date }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>
+                        Evento
+                    </th>
+                    <th>
+                        Localidad
+                    </th>
+                    <th class="text-right">
+                        Precio
+                    </th>
+                    <th class="text-right">
+                        Cantidad
+                    </th>
+                    <th class="text-right">
+                        Subtotal
+                    </th>
+                    <th class="text-right">
+                        Impuesto
+                    </th>
+                    <th class="text-right">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in object.receipt.all %}
+                <tr>
+                    <td>
+                        {{ item.event_locality.event.name }}
+                    </td>
+                    <td>
+                        {{ item.event_locality.locality.name }}
+                    </td>
+                    <td class="text-right">
+                        ${{ item.price }}
+                    </td>
+                    <td class="text-right">
+                        {{ item.quantity }}
+                    </td>
+                    <td class="text-right">
+                        ${{ item.subtotal }}
+                    </td>
+                    <td class="text-right">
+                        ${{ item.tax }}
+                    </td>
+                    <td class="text-right">
+                        ${{ item.total }}
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr class="bg-info">
+                    <td>
+                        <b>Total</b>
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td class="text-right">
+                        
+                    </td>
+                    <td class="text-right">
+                        {{ object.quantity }}
+                    </td>
+                    <td class="text-right">
+                        ${{ object.subtotal }}
+                    </td>
+                    <td class="text-right">
+                        ${{ object.tax }}
+                    </td>
+                    <td class="text-right">
+                        ${{ object.total }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 no-print">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button class="btn btn-primary" onclick="print()">Imprimir</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,11 +7,15 @@
 <div class = "page-header">
     <h1>
         <span class="badge badge-dark">Carrito de Compra </span> 
-        <small><b>{{ object.name }}</b></small>
     </h1>
 </div>
 <hr>
-<div class="row" ng-controller="shoppingCarController" ng-init="init({{ shopping_car_detail }})">
+{% if shopping_car_empty %}
+<div class="alert alert-info" role="alert">
+    El carrito de compras esta vacio
+</div>
+{% else %}
+<div class="row"  ng-controller="shoppingCarController" ng-init="init({{ receipt }},{{ pay_method_list }})">
     <table class="table table-responsive">
         <thead class="thead-light">
             <tr>
@@ -41,7 +45,7 @@
                 </th>
             </tr>
         </thead>
-        <tbody ng-repeat="item in shopping_car">
+        <tbody ng-repeat="item in receipt.items">
             <tr>
                 <td ng-bind="item.event_name">
                 </td>
@@ -50,13 +54,13 @@
                 <td class="text-right" ng-bind="item.price | currency:'$' ">
                 </td>
                 <td class="text-right">
-                    <input type="number" class="form-control w-50 float-right text-right" ng-model="item.quantity">
+                    <input type="number" name="{$ item.id $}" class="form-control w-50 float-right text-right" ng-model="item.quantity" ng-change="calculateValuesItem($index)" min="1" required/>
                 </td>
-                <td class="text-right" ng-bind="(item.price * item.quantity) | currency:'$' ">
+                <td class="text-right" ng-bind="item.subtotal | currency:'$' ">
                 </td>
-                <td class="text-right" ng-bind="(item.price * item.quantity) * item.tax | currency:'$' ">
+                <td class="text-right" ng-bind="item.tax | currency:'$' ">
                 </td>
-                <td class="text-right" ng-bind="((item.price * item.quantity) + (item.price * item.quantity) * item.tax) | currency:'$' ">
+                <td class="text-right" ng-bind="item.total | currency:'$' ">
                 </td>
                 <td>
                     <a class="btn btn-outline-danger btn-sm fas fa-times" href="#" ng-click="deleteItem($index)"></a>
@@ -66,26 +70,44 @@
         <thead class="thead-light">
             <tr>
                 <th>
-                    <b>Valor Total</b>
+                    Valor Total
                 </th>
                 <th>
                 </th>   
                 <th class="text-right">
                 </th>
-                <th class="text-right" ng-bind="getTotalQuantity()">
+                <th class="text-right" ng-bind="calculateTotal('quantity')">
                 </th>
-                <th class="text-right" ng-bind="getSubtotal() | currency:'$'">
+                <th class="text-right" ng-bind="calculateTotal('subtotal') | currency:'$'">
                 </th>
-                <th class="text-right" ng-bind="getTax() | currency:'$'">
+                <th class="text-right" ng-bind="calculateTotal('tax') | currency:'$'">
                 </th>
-                <th class="text-right" ng-bind="getTotal() | currency:'$'">
+                <th class="text-right" ng-bind="calculateTotal('total') | currency:'$'">
                 </th>
                 <th class="text-right">
                 </th>
             </tr>
         </thead>
     </table>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <form action="#" method="POST">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-success">Confirmar Compra</button>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <select class="form-control text-secondary" ng-options="option[1] for option in pay_method_list" ng-model="formData.pay_method" ng-init="formData.pay_method = pay_method_list[0]" required>
+                        <option></option>
+                    </select>
+                    <input hidden name="pay_method" value="{$ formData.pay_method $}" >
+                </div>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
 </div>
+{% endif %}
+   
 <style>
     .table td{
         vertical-align: middle

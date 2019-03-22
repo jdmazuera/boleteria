@@ -4,8 +4,13 @@ from events_manager.core.models import User,BaseModel
 from events_manager.receipt.models import Receipt
 from django.utils.timezone import now
 from events_manager.core.validators import validator_greater_zero
+from django.conf import settings
 
 class Ticket(BaseModel):
+    detail_view_name = 'ticket:detail'
+    edit_view_name = 'ticket:update'
+    delete_view_name = 'ticket:delete'
+
     error_messages = {
         'blank' : 'El Campo No Puede Estar En Blanco',
         'invalid' : 'El Valor No Es Valido',
@@ -20,6 +25,12 @@ class Ticket(BaseModel):
     quantity = models.IntegerField(default=0,blank=False,null=False,verbose_name='Cantidad',validators=[validator_greater_zero])
     subtotal = models.FloatField(default=0,blank=False,null=False,verbose_name='Subtotal',validators=[validator_greater_zero])
     total = models.FloatField(default=0,blank=False,null=False,verbose_name='Total',validators=[validator_greater_zero])
+
+    def save(self,*args, **kwargs):
+        self.subtotal = self.price * self.quantity
+        self.tax = self.subtotal * settings.TAX_PERCENTAGE
+        self.total = self.subtotal + self.tax
+        super().save(*args, **kwargs)
 
     class Meta:
         permissions = [

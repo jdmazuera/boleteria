@@ -34,14 +34,9 @@
             <th></th>
             <th></th>
             {% endif %}
-            <th>Boleto</th>
-            <th>Nombre Evento</th>
-            <th>Equipo Local</th>
-            <th>Equipo Visitante</th>
+            <th>Evento</th>
+            <th>Localidad</th>
             <th>Fecha</th>
-            <th>Precio</th>
-            <th>Propietario</th>
-            <th>-------</th>
         </tr>
     </thead>
     <tbody>
@@ -51,13 +46,9 @@
         <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ ticket.get_absolute_delete_url }}"></a></td>
         <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ ticket.get_absolute_edit_url }}"></a></td>
         {% endif %}
-        <td><a class="text-dark" href="{{ ticket.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ ticket }}</a></td>
-        <td>{{ ticket.event.name }}</td>
-        <td>{{ ticket.event.equipo_local }}</td>
-        <td>{{ ticket.event.equipo_visitante }}</td>
-        <td>{{ ticket.date }}</td>
-        <td>${{ ticket.price }}</td>
-        <td>{{ ticket.propietario }}</td>
+        <td><a class="text-dark" href="{{ ticket.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ ticket.event_locality.event.name }}</a></td>
+        <td>{{ ticket.event_locality.locality.name }}</td>
+        <td>{{ ticket.event_locality.event.date }}</td>
     </tr>
     {% endfor %}
     </tbody>

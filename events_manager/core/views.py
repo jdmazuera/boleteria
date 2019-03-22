@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.forms import Form
 from django.db.models import Q
+from json import dumps
 
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
@@ -121,6 +122,12 @@ def login(request):
         user = authenticate(username=username,password=password)
         if user is not None and user.is_active:
             login_django(request,user)
+            receipt = user.receipt_set.all().order_by('-creation_date').first()
+            if not receipt.confirmed:
+                shopping_car = {}
+                shopping_car['receipt_session_id'] = receipt.id
+                shopping_car['receipt_items_quantity'] = receipt.quantity
+                request.session['shopping_car'] = dumps(shopping_car)
             if next:
                 return HttpResponseRedirect(next)
             return redirect('core:index')

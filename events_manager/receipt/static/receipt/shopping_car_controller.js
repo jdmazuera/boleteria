@@ -1,52 +1,52 @@
-boleteria.controller('shoppingCarController',function($scope,$http){
+boleteria.controller('shoppingCarController',function($scope,$controller,$http){
 
-    $scope.init = function(shopping_car){
-        $scope.shopping_car = shopping_car;
+    $scope.init = function(receipt,pay_method_list){
+        $scope.receipt = receipt;
+        $scope.pay_method_list = pay_method_list;
     }
 
-    $scope.getTotalQuantity = function (total, item) {
-        let total_quantity = 0;
-        $scope.shopping_car.forEach(element => {
-            total_quantity = total_quantity + element.quantity;
-        });
-        return total_quantity;
+    $scope.calculateValuesItem = function(index){
+        $http({
+            method: 'POST',
+            url: '/receipt/update_item_shopping_car',
+            data: {
+                id: $scope.receipt.items[index].id,
+                quantity: $scope.receipt.items[index].quantity
+            }
+        }).then(function(response){
+            $scope.receipt.items[index].subtotal = $scope.receipt.items[index].quantity * $scope.receipt.items[index].price;
+            $scope.receipt.items[index].tax = $scope.receipt.items[index].subtotal * $scope.receipt.tax_percentage;
+            $scope.receipt.items[index].total = $scope.receipt.items[index].subtotal + $scope.receipt.items[index].tax;
+            $scope.$parent.item_quantity = $scope.calculateTotal('quantity');
+        },function(response){
+            
+        })
+        
     }
 
-    $scope.getSubtotal = function (total, item) {
+    $scope.calculateTotal = function (property) {
         let subtotal = 0;
-        $scope.shopping_car.forEach(element => {
-            subtotal = subtotal + (element.price * element.quantity);
+        $scope.receipt.items.forEach(element => {
+            subtotal = subtotal + element[property];
         });
         return subtotal;
     }
 
-    $scope.getTax = function (total, item) {
-        let tax = 0;
-        $scope.shopping_car.forEach(element => {
-            tax = tax + (element.price * element.quantity * element.tax);
-        });
-        return tax;
-    }
-
-    $scope.getTotal = function (total, item) {
-        let tax = 0;
-        $scope.shopping_car.forEach(element => {
-            tax = tax + (element.price * element.quantity * (1 + element.tax));
-        });
-        return tax;
-    }
-
-    $scope.deleteItem = function(index_param){
+    $scope.deleteItem = function(index){
         $http({
             method: 'POST',
-            url: '/receipt/update_shopping_car',
-            data: $scope.shopping_car[index_param].event_locality_id
+            url: '/receipt/delete_item_shopping_car',
+            data: {
+                id: $scope.receipt.items[index].id
+            }
         }).then(function(response){
-            
+            $scope.receipt.items[index].is_active = false;
+            $scope.receipt.items = $scope.receipt.items.filter((element) => element.is_active);
+            $scope.$parent.item_quantity = $scope.calculateTotal('quantity');
         },function(response){
             
         })
-        $scope.shopping_car = $scope.shopping_car.filter((element,index) => index_param!==index); 
+         
     }
 
 });
