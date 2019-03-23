@@ -1,52 +1,89 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-md-3">
-        <h1>Evento / <small>Detalle Compra</small> </h1>
-    </div>
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Boleto </span> 
+        <small><b>{{ object.identifier }}</b></small>
+    </h1>
 </div>
 <hr>
 <div class="row">
-    {% if perms.ticket.change_ticket %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-primary" href="{% url 'ticket:update' object.id %}">Editar</a>
-    </div>
-    {% endif %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-secondary" href="{% url 'ticket:list' %}">Volver a Lista</a>
-    </div>
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-info" href="{% url 'ticket:quote' object.id %}">Factura</a>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if perms.ticket.change_ticket %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'ticket:update' object.id %}">Editar</a>
+            </div>
+            {% endif %}
+            {% if perms.ticket.change_ticket %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-danger" href="{% url 'ticket:delete' object.id %}">Eliminar</a>
+            </div>
+            {% endif %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-secondary" href="{% url 'ticket:list' %}">Volver a Lista</a>
+            </div>
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-success" href="{% url 'receipt:detail' object.receipt.id %}">Factura</a>
+            </div>
+        </div>
     </div>
     <hr>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <i class="fas fa-info-circle"></i> Informacion Del Boleto
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Basica
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Boleto: </span></h5>  {{ object }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Boleto: </span></b>  {{ object.identifier }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Evento: </span></h5>  {{ object.event.name }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Factura: </span></b><a href="{{ object.receipt.identifier.get_absolute_detail_url }}">{{ object.receipt.identifier }}</a>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Equipos: </span></h5>  {{ object.event.equipo_local }} VS {{ object.event.equipo_visitante }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Evento: </span></b><a href="{{ object.event_locality.event.get_absolute_detail_url }}">{{ object.event_locality.event.name }}</a>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Fecha: </span></h5>  {{ object.date }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Localidad: </span></b><a href="{{ object.event_locality.locality.get_absolute_detail_url }}">{{ object.event_locality.locality.name }}</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Fecha Y Hora De Compra: </span></b>  {{ object.creation_date }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Propietario: </span></b>  {{ object.receipt.costumer }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pb-3">
+                        <b><span class="font-weight-bold text-dark">Identificación: </span></b>  {{ object.receipt.costumer.identification }}
                     </div>
                 </div>
-                <div class="row" style="padding-top:2rem">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Precio: </span></h5> ${{ object.price }}
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle"></i> Detalle  
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 pb-3">
+                        <b><span class="font-weight-bold text-dark">Precio: </span></b>  ${{ object.price }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Propietario: </span></h5>  {{ object.propietario }}
+                    <div class="col-xs-12 col-sm-6 col-md2 col-lg-3 col-xl-2 pb-3">
+                        <b><span class="font-weight-bold text-dark">Cantidad Puestos: </span></b> {{ object.quantity }}
                     </div>
-                </div>
+                    <div class="col-xs-12 col-sm-6 col-m2-3 col-lg-3 col-xl-2 pb-3">
+                        <b><span class="font-weight-bold text-dark">Subtotal: </span></b> ${{ object.subtotal }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md23 col-lg-3 col-xl-2 pb-3">
+                        <b><span class="font-weight-bold text-dark">Impuesto: </span></b> ${{ object.tax }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md23 col-lg-3 col-xl-2 pb-3">
+                        <b><span class="font-weight-bold text-dark">Total: </span></b> ${{ object.total }}
+                    </div>
+                </div2
             </div>
         </div>
     </div>

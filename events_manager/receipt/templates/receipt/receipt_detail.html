@@ -21,16 +21,16 @@
                         <b><span class="font-weight-bold text-dark">Metodo De Pago: </span></b>  {{ object.pay_method }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Identificación: </span></b>  {{ object.user_creator.identification }}
+                        <b><span class="font-weight-bold text-dark">Identificación: </span></b>  {{ object.costumer.identification }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Nombre: </span></b>  {{ object.user_creator.first_name }}
+                        <b><span class="font-weight-bold text-dark">Nombre: </span></b>  {{ object.costumer.first_name }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Apellido: </span></b>  {{ object.user_creator.last_name }}
+                        <b><span class="font-weight-bold text-dark">Apellido: </span></b>  {{ object.costumer.last_name }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Fecha Y Hora: </span></b>  {{ object.creation_date }}
+                        <b><span class="font-weight-bold text-dark">Fecha Y Hora De Compra: </span></b>  {{ object.creation_date }}
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     </td>
                 </tr>
                 {% endfor %}
-                <tr class="bg-info">
+                <tr class="bg-dark text-white">
                     <td>
                         <b>Total</b>
                     </td>

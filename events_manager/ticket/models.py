@@ -18,6 +18,7 @@ class Ticket(BaseModel):
         'unique' : 'El Ticket Debe Ser Unico'
     }
 
+    identifier = models.CharField(max_length=40,blank=True,null=True,verbose_name='Codigo')
     event_locality = models.ForeignKey(to=EventLocality,on_delete=models.CASCADE,related_name='event_locality',verbose_name='Localidad Evento',error_messages=error_messages,null=True,blank=False)
     receipt = models.ForeignKey(to=Receipt,on_delete=models.CASCADE,related_name='receipt',verbose_name='Factura',error_messages=error_messages,null=True,blank=False)
     price = models.FloatField(default=0,blank=False,null=False,verbose_name='Precio',validators=[validator_greater_zero])
@@ -26,13 +27,18 @@ class Ticket(BaseModel):
     subtotal = models.FloatField(default=0,blank=False,null=False,verbose_name='Subtotal',validators=[validator_greater_zero])
     total = models.FloatField(default=0,blank=False,null=False,verbose_name='Total',validators=[validator_greater_zero])
 
+    def __str__(self):
+        return self.identifier
+
     def save(self,*args, **kwargs):
         self.subtotal = self.price * self.quantity
         self.tax = self.subtotal * settings.TAX_PERCENTAGE
         self.total = self.subtotal + self.tax
         super().save(*args, **kwargs)
+        self.identifier = 'Boleto - ' + str(self.id * 10000) + ' - ' + str((self.id * 10000)%567)
+        super().save(*args, **kwargs)
 
     class Meta:
         permissions = [
-            ("view_own_ticket", "Can View Only Own Tickets")
+            ("view_all_tickets", "Can View All Tickets")
         ]

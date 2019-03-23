@@ -48,6 +48,7 @@
             </div>
         </div>
     </div>
+    {% if localities %}
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="row">
         {% for locality in  localities %}
@@ -58,18 +59,25 @@
                     </div>
                     <div class="card-body">
                         <p><strong>Precio:</strong> ${{ locality.price }}</p>
-                        {% if locality.capacity > 0 %}
+                        {% if locality.availability > 0 %}
                         <p><strong>Estado:</strong> Disponible</p>
-                        {% elif locality.capacity <= 0 %}
+                        <button ng-click="addToShoppingCar('{{locality.id}}')" class="btn btn-sm btn-success"><i class="fas fa-shopping-cart"></i> Añadir Al Carrito</button>
+                        {% elif locality.availability <= 0 %}
                         <p><strong>Estado:</strong> Agotado</p>
                         {% endif %}
-                        <button ng-click="addToShoppingCar('{{locality.id}}')" class="btn btn-sm btn-success"><i class="fas fa-shopping-cart"></i> Añadir Al Carrito</button>
                     </div>
                 </div>
             </div>
         {% endfor %}
         </div>
     </div>
+    {% else %}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="alert alert-info"  role="alert">
+            Las localidades del evento aun estan por definir.
+        </div>
+    </div>
+    {% endif %}
     
 </div>
 {% endblock %}

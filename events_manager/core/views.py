@@ -21,9 +21,6 @@ from events_manager.core.models import User
 @method_decorator(permission_required('core.view_user',raise_exception=False), name='dispatch')
 class UserDetailView(DetailView):
     model = User
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('core.view_user',raise_exception=False), name='dispatch')
@@ -40,10 +37,10 @@ class UserListView(ListView):
             }
         )
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['users'] = User.objects.filter(is_active=True)
-        return context
+    def get_queryset(self):
+        query_set =  User.objects.filter(is_active=True)
+        return query_set
+        
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('core.add_user',raise_exception=False), name='dispatch')
@@ -123,7 +120,7 @@ def login(request):
         if user is not None and user.is_active:
             login_django(request,user)
             receipt = user.receipt_set.all().order_by('-creation_date').first()
-            if not receipt.confirmed:
+            if receipt and not receipt.confirmed:
                 shopping_car = {}
                 shopping_car['receipt_session_id'] = receipt.id
                 shopping_car['receipt_items_quantity'] = receipt.quantity

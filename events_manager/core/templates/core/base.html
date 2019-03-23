@@ -93,7 +93,9 @@
                   Boletos <i class="fas fa-ticket-alt"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="ticket_dropdown">
-                  <a class="dropdown-item" href="{% url 'ticket:list' %}">Mis Compras</a>
+                  <a class="dropdown-item" href="{% url 'ticket:list' %}">Ver</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'receipt:list' %}">Mis Compras</a>
                 </div>
               </li>
               {% if perms.core.view_report %}

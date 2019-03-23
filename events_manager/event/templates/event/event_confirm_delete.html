@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<form method="post">{% csrf_token %}
+<form action="#" method="post">{% csrf_token %}
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xg-4 text-center" style="padding:5rem">
             <h5>Esta Seguro De Eliminar el Evento "{{ object.name }}"?</h5>

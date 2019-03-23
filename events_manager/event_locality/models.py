@@ -16,13 +16,17 @@ class EventLocality(BaseModel):
 
     def save(self,*args,**kwargs):
         if not self.id:
-            self.availability = capacity
+            self.availability = self.capacity
         super().save(*args,**kwargs)
 
-    def to_discount(self,quantity):
+    def __str__(self):
+        return self.event.name + ' - ' + self.locality.name
+
+    def to_discount(self,quantity,commit=False):
         if self.availability >= quantity and quantity >= 0:
             self.availability -= quantity
-            self.save()
+            if commit:
+                self.save()
             return True
         else:
             return False

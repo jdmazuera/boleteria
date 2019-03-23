@@ -1,13 +1,12 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<form class="" method="POST">
-<div class="row">
-    <div class="col-md-8">
-        <h1>Eventos Disponibles</h1>
-    </div>
-    <div class="col-md-4">
-        
+<form action="#" class="" method="POST">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Eventos Disponibles</h1>
+        </div>
+        <div class="col-md-4">
             {% csrf_token %}
             <div class="form-group input-group">
                 <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
@@ -19,11 +18,10 @@
                     <a class="btn btn-secondary" href="{% url 'event:create' %}">Crear Evento</a>
                     {% endif %}
                 </div>
-            </div>            
-        </form>
+            </div>
+        </div>
+        
     </div>
-    
-</div>
 </form>
 
 <hr>

@@ -49,23 +49,33 @@ class User(AbstractUser):
 
         elif self.position == 'Gerente':
             permissions = Permission.objects.filter(
-                content_type__model__in=('event','ticket','user')
-            ).exclude(codename='view_own_ticket')
+                content_type__model__in=('event','ticket','user','locality','event_locality','receipt')
+            )
             self.user_permissions.set(permissions)
 
         elif self.position == 'Vendedor':
             permissions = Permission.objects.filter(
-                content_type__model__in=('ticket','user')
-            ).exclude(codename__in=('view_report','view_own_ticket'))
+                content_type__model__in=('ticket','user','receipt','event')
+            ).exclude(
+                codename__in=(
+                    'view_report',
+                    'add_receipt',
+                    'change_receipt',
+                    'delete_receipt',
+                    'add_event',
+                    'change_event',
+                    'delete_event'
+                )
+            )
             self.user_permissions.set(permissions)
 
         elif self.position == 'Cliente':
-            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','view_own_ticket'))
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','buy'))
             self.user_permissions.set(permissions)
 
         else:
             self.position = 'Cliente'
-            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','view_user','view_own_ticket'))
+            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','view_user','buy'))
             self.user_permissions.set(permissions)
 
         super(User, self).save(*args, **kwargs)
@@ -93,7 +103,9 @@ User._meta.get_field('username').error_messages = {
 
 User._meta.get_field('email').verbose_name = 'Correo Electronico'
 User._meta.get_field('first_name').verbose_name = 'Nombre'
+User._meta.get_field('first_name').blank = False
 User._meta.get_field('last_name').verbose_name = 'Apellido'
+User._meta.get_field('last_name').blank = False
 User._meta.get_field('is_active').verbose_name = 'Activo'
 User._meta.get_field('is_active').help_text = 'Desactiva el acceso al usuario a las caracteristicas del sistema'
 

@@ -31,59 +31,40 @@ class TicketListView(ListView):
     def post(self,request):
         keyword = request.POST.get('keyword')
 
-        tickets = Ticket.objects.filter(
-            Q(event_locality__event__name__icontains=keyword)|
-            Q(event_locality__locality__name__icontains=keyword)
+        tickets = self.get_queryset()
+
+        tickets = tickets.filter(
+            Q(identifier__icontains=keyword)
+            |Q(receipt__identifier__icontains=keyword)
+            |Q(receipt__costumer__first_name__icontains=keyword)
+            |Q(receipt__costumer__last_name__icontains=keyword)
+            |Q(receipt__costumer__identification__icontains=keyword)
+            |Q(event_locality__event__name__icontains=keyword)
+            |Q(event_locality__locality__name__icontains=keyword)
         )
 
         return render(
             request,
             'ticket/ticket_list.html',
             {
-                'object_list': tickets
+                'object_list': tickets,
+                'keyword' : keyword
             }
         )
 
-    # def get_queryset(self):
-    #     if self.request.user.has_perm('ticket.view_own_ticket'):
-    #         tickets = Ticket.objects.filter(propietario=self.request.user)
-    #     else:
-    #         tickets = Ticket.objects.all()
-    #     return tickets
+    def get_queryset(self):
+        if self.request.user.has_perm('ticket.view_all_tickets'):
+            tickets = Ticket.objects.filter(receipt__confirmed=True,is_active=True,receipt__is_active=True)
+        else:
+            tickets = Ticket.objects.filter(receipt__costumer=self.request.user,receipt__confirmed=True,is_active=True,receipt__is_active=True)
+        return tickets
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('ticket.add_ticket',raise_exception=False), name='dispatch')
 class TicketCreateView(CreateView):
     model = Ticket
+    success_url = reverse_lazy('ticket:list')
     form_class = TicketForm
-    verbose_name = 'Comprar'
-    model_name = 'Boletos'
-
-    def get(self, request, *args, **kwargs):
-        if request.GET:
-            parent_event_pk = request.GET.get('event')
-            if parent_event_pk:
-                try:
-                    event = Event.objects.get(pk=parent_event_pk)
-                    self.form_class.base_fields['event'].initial = event.pk
-                    self.form_class.base_fields['price'].initial = event.precio_ticket
-                    self.form_class.base_fields['date'].initial = event.date
-                    self.form_class.base_fields['propietario'].initial = request.user.id
-                except:
-                    pass
-
-            if not request.user.has_perm('ticket.change_ticket'):
-                for key in self.form_class.base_fields:
-                    if not key == 'metodo_pago':
-                        self.form_class.base_fields[key].disabled = True
-
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('ticket.change_ticket',raise_exception=False), name='dispatch')
@@ -91,14 +72,6 @@ class TicketUpdateView(UpdateView):
     model = Ticket
     success_url = reverse_lazy('ticket:list')
     form_class = TicketForm
-    template_name_suffix = '_update_form'
-    verbose_name = 'Editar'
-    model_name = 'Tickets'
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('ticket.delete_ticket',raise_exception=False), name='dispatch')
@@ -107,17 +80,3 @@ class TicketDeleteView(DeleteView):
     success_url = reverse_lazy('ticket:list')
     fields = ['name']
     template_name_suffix = '_confirm_delete'
-
-@login_required
-@permission_required('ticket.view_ticket',raise_exception=False)
-def quote(request,ticket_pk):
-
-    ticket = Ticket.objects.get(pk=ticket_pk)
-
-    return render(
-        request,
-        'ticket/ticket_quote.html',
-        {
-            'object' : ticket
-        }
-    )

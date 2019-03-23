@@ -8,9 +8,9 @@ from json import dumps
 from django.conf import settings
 
 class Receipt(BaseModel):
-    detail_view_name = 'receipt:detail_receipt'
-    edit_view_name = 'receipt:update_receipt'
-    delete_view_name = 'receipt:delete_receipt'
+    detail_view_name = 'receipt:detail'
+    edit_view_name = 'receipt:update'
+    delete_view_name = 'receipt:delete'
 
     PAY_METHODS = (
         ('Efectivo','Efectivo'),
@@ -39,6 +39,9 @@ class Receipt(BaseModel):
     @property
     def quantity(self):
         return self.receipt.filter(is_active=True).aggregate(Sum('quantity')).get('quantity__sum', 0.00)
+    
+    def __str__(self):
+        return self.identifier
 
     def to_json(self):
         receipt_dict = model_to_dict(self)
@@ -46,7 +49,6 @@ class Receipt(BaseModel):
         items_dict = []
 
         for item in self.receipt.filter(is_active=True).order_by('id'):
-            print(item.id)
             item_dict = model_to_dict(item)
             item_dict['event_name'] = item.event_locality.event.name
             item_dict['locality_name'] = item.event_locality.locality.name
@@ -59,11 +61,23 @@ class Receipt(BaseModel):
         return receipt_json
 
     def sell(self,*args,**kwargs):
+        no_avaliable = []
+        for item in self.receipt.filter(is_active=True):
+            if not item.event_locality.to_discount(item.quantity):
+                no_avaliable.append(item)
+
+        if no_avaliable:
+            return no_avaliable
+
+        for item in self.receipt.filter(is_active=True):
+            item.event_locality.to_discount(item.quantity,True)
+
         self.confirmed = True
         super().save(*args, **kwargs)
-        return True
 
     class Meta:
         permissions = [
-            ("view_own_receipt", "Can View Only Own Receipts")
+            ("sell", "Can sell tickets to others users"),
+            ("buy", "Can buy tickets"),
+            ("view_all_receipts", "Can view all receipts")
         ]

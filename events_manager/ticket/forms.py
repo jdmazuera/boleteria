@@ -16,38 +16,44 @@ class TicketForm(ModelForm):
                 'Datos Basicos',
                 Row(
                     Div(
-                        Field('event'),
-                        css_class='col-md-6'
+                        Field('identifier'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('receipt'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('event_locality'),
+                        css_class='col-md-3'
                     ),
                     Div(
                         Field('price'),
-                        css_class='col-md-6'
-                    )
+                        css_class='col-md-3'
+                    )                    
                 ),
                 Row(
                     Div(
-                        Field('date'),
-                        css_class='col-md-6'
+                        Field('quantity'),
+                        css_class='col-md-3'
                     ),
                     Div(
-                        Field('propietario'),
-                        css_class='col-md-6'
-                    )
-                ),
-                Row(
-                    Div(
-                        Field('estado'),
-                        css_class='col-md-6'
+                        Field('tax'),
+                        css_class='col-md-3'
                     ),
                     Div(
-                        Field('metodo_pago'),
-                        css_class='col-md-6'
+                        Field('subtotal'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('total'),
+                        css_class='col-md-3'
                     )
-                )         
+                )       
             ),
             ButtonHolder(
-                Submit('submit', 'Comprar', css_class='button white'),
-                HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
+                Submit('submit', 'Guardar', css_class='button white'),
+                HTML('<a class="btn btn-secondary" href={% url \'ticket:list\' %}>Cancelar</a></button>')
             )
         )
 
@@ -56,6 +62,6 @@ class TicketForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['price']
+        fields = ['identifier','receipt','event_locality','price','quantity','tax','subtotal','total']
     
     
