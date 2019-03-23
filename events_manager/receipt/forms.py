@@ -16,10 +16,6 @@ class ReceiptForm(ModelForm):
                 'Datos Basicos',
                 Row(
                     Div(
-                        Field('identifier'),
-                        css_class='col-md-3'
-                    ),
-                    Div(
                         Field('salesman'),
                         css_class='col-md-3'
                     ),
@@ -44,6 +40,6 @@ class ReceiptForm(ModelForm):
 
     class Meta:
         model = Receipt
-        fields = ['identifier','salesman','pay_method','confirmed']
+        fields = ['salesman','pay_method','confirmed']
     
     

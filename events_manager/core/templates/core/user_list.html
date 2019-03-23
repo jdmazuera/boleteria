@@ -1,63 +1,73 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <h1>Usuarios / <small>Lista</small> </h1>
-    </div>
-</div>
-
-<hr>
-<form action="#" method="POST">
-    {% csrf_token %}
+<form action="#" class="" method="POST">
     <div class="row">
-        <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+        <div class="col-md-8">
+            <h1>
+                <span class="badge badge-dark">Usuarios</span>
+            </h1>
+        </div>
+        <div class="col-md-4">
+            {% csrf_token %}
+            <div class="form-group input-group">
+                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A" value="{{ keyword }}">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if perms.core.add_user %}
+                    <a class="btn btn-secondary" href="{% url 'core:create' %}">Crear Usuario</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        <div class="col-md-1 form-group">
-            <a class="btn btn-primary" href="{% url 'core:create' %}">Crear</a>
-        </div>
+        
     </div>
-    
 </form>
-<table class="table table-borderless table-hover table-responsive text-nowrap" id="users_table" width="100%" cellspacing="0">
-    <thead>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-borderless table-hover table-striped" id="ticket_table" width="100%" cellspacing="0">
+        <thead class="thead-light">
+            <tr>
+                {% if perms.core.change_user %}
+                <th></th>
+                {% endif %}
+                {% if perms.core.delete_user %}
+                <th></th>
+                {% endif %}
+                <th>Nombre Usuario</th>
+                <th>Nombre</th>
+                <th>Fecha Creacion</th>
+                <th>Email</th>
+                {% if perms.event.change_event and perms.event.delete_event %}
+                <th>Cargo</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in object_list %}
         <tr>
-            {% if perms.event.change_event and perms.event.delete_event %}
-            <th></th>
-            <th></th>
+            {% if perms.core.change_user %}
+            <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
             {% endif %}
-            <th>Nombre Usuario</th>
-            <th>Nombre</th>
-            <th>Fecha Creacion</th>
-            <th>Email</th>
+            {% if perms.core.delete_user %}
+            <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
+            {% endif %}
+            <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item.username }}</a></td>
+            <td>{{ item }}</td>
+            <td>{{ item.date_joined }}</td>
+            <td>{{ item.email }}</td>
             {% if perms.event.change_event and perms.event.delete_event %}
-            <th>Cargo</th>
+            <td>{{ item.position }}</td>
             {% endif %}
         </tr>
-    </thead>
-    <tbody>
-    {% for user in object_list %}
-    <tr>
-        {% if perms.event.change_event and perms.event.delete_event %}
-        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ user.get_absolute_delete_url }}"></a></td>
-        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ user.get_absolute_edit_url }}"></a></td>
-        {% endif %}
-        <td><a class="text-dark" href="{{ user.get_absolute_detail_url }}">{{ user.username }}</a></td>
-        <td>{{ user.first_name }} {{ user.last_name }}</td>
-        <td>{{ user.date_joined }}</td>
-        <td>{{ user.email }}</td>
-        {% if perms.event.change_event and perms.event.delete_event %}
-        <td>{{ user.position }}</td>
-        {% endif %}
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock %}

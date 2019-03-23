@@ -1,62 +1,73 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <h1>Usuario / <small>Detalle</small> </h1>
-    </div>
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Usuario </span> 
+        <small><b>{{ object }}</b></small>
+    </h1>
 </div>
 <hr>
 <div class="row">
-    {% if perms.core.change_user %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-primary" href="{% url 'core:update' object.id %}">Editar</a>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 no-print">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if perms.core.change_user %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'core:update' object.id %}">Editar</a>
+            </div>
+            {% endif %}
+            {% if perms.core.delete_user %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-danger" href="{% url 'core:delete' object.id %}">Eliminar</a>
+            </div>
+            {% endif %}
+            {% if perms.core.view_all_user %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-secondary" href="{% url 'core:list' %}">Volver a Lista</a>
+            </div>
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2 col-xg-1">
-        <a class="btn btn-secondary" href="{% url 'core:list' %}">Volver a Lista</a>
-    </div>
-    <hr>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
+            <div class="card-header bg-primary text-white">
                 <i class="fas fa-info-circle"></i> Informacion Basica
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Usuario: </span></h5>  {{ object.username }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Usuario: </span></b>  {{ object.username }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Nombre Completo: </span></h5>  {{ object.first_name }} {{ object.last_name }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Nombre Completo: </span></b>  {{ object }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Email: </span></h5>  {{ object.email }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Email: </span></b>  {{ object.email }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Fecha Creación: </span></h5>  {{ object.date_joined }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Fecha Creación: </span></b>  {{ object.date_joined }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xg-12" style="padding-top:5rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:5rem">
         <div class="card">
-            <div class="card-header bg-secondary text-white">
-                <i class="fas fa-address-book"></i> Detalles del Evento
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-address-book"></i> Detalles de Contacto
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Celular: </span></h5>  {{ object.mobile }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Celular: </span></b>  {{ object.mobile }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Telefono: </span></h5>  {{ object.phone }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Telefono: </span></b>  {{ object.phone }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Dirección: </span></h5>  {{ object.address }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Dirección: </span></b>  {{ object.address }}
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xg-3">
-                        <h5><span class="font-weight-bold text-dark">Cargo: </span></h5>  {{ object.position }}
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <b><span class="font-weight-bold text-dark">Cargo: </span></b>  {{ object.position }}
                     </div>
                 </div>
             </div>

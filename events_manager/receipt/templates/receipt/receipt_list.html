@@ -32,8 +32,10 @@
     <table class="table table-borderless table-hover table-striped" id="ticket_table" width="100%" cellspacing="0">
         <thead class="thead-light">
             <tr>
-                {% if perms.receipt.change_receipt and perms.receipt.delete_receipt %}
+                {% if perms.receipt.change_receipt %}
                 <th></th>
+                {% endif %}
+                {% perms.receipt.delete_receipt %}
                 <th></th>
                 {% endif %}
                 <th>Factura</th>
@@ -46,8 +48,10 @@
         <tbody>
         {% for item in object_list %}
         <tr>
-            {% if perms.receipt.change_receipt and perms.receipt.delete_receipt %}
+            {% if perms.receipt.change_receipt %}
             <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
+            {% endif %}
+            {% perms.receipt.delete_receipt %}
             <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
             {% endif %}
             <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item.identifier }}</a></td>

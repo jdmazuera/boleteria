@@ -1,9 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from json import dumps,loads
 from django.contrib.auth.decorators import login_required,permission_required
 from django.http import HttpResponse,HttpResponseRedirect
-from .models import *
+
+from events_manager.core.models import User
+from events_manager.event.models import Event
+from events_manager.event_locality.models import EventLocality
+from events_manager.locality.models import Locality
+from events_manager.receipt.models import Receipt
+from events_manager.ticket.models import Ticket
+from events_manager.type_event.models import TypeEvent
+
 from django.db.models import Value, Q, Sum, Count
 from django.db.models.functions import Concat
 from django.views.generic import View,DetailView,ListView,CreateView,DeleteView,UpdateView
@@ -42,8 +50,6 @@ class AddToShoppingCarView(View):
                 if not request.user.position == 'Vendedor':
                     receipt.salesman = request.user
                 receipt.save()
-                receipt.identifier = 'FV - '+str(receipt.id * 1000) + '-' + str((receipt.id * 1000)%95)
-                receipt.save()
 
             try:
                 ticket = Ticket.objects.get(receipt=receipt,event_locality=event_locality,is_active=True)
@@ -74,6 +80,11 @@ class DeleteItemShoppingCarView(View):
             params = loads(request.body.decode('utf-8'))
             ticket = Ticket.objects.get(id=params['id'])
             ticket.delete()
+
+            if ticket.receipt.get_items().count() <= 0:
+                ticket.receipt.true_delete()
+                request.session['shopping_car'] = None
+                return redirect('receipt:detail_shopping_car')
 
             shopping_car = loads(request.session['shopping_car'])
             shopping_car['receipt_items_quantity'] = ticket.receipt.quantity
@@ -131,10 +142,15 @@ class DetailShoppingCar(View):
         )
 
     def post(self,request,*args,**kwargs):
-        values = request.POST.dict()
-        shopping_car = loads(request.session['shopping_car'])
         try:
+            values = request.POST.dict()
+            shopping_car = loads(request.session['shopping_car'])
             receipt = Receipt.objects.get(id=shopping_car['receipt_session_id'])
+
+            if ticket.receipt.get_items().count() <= 0:
+                return redirect('receipt:detail_shopping_car')
+
+
             receipt.pay_method = eval(values['pay_method'])[0]
 
             
@@ -170,9 +186,14 @@ class DetailShoppingCar(View):
                     'pay_method_list': dumps(Receipt.PAY_METHODS)
                 }
             )
+        except:
+            return redirect('receipt:detail_shopping_car')
+
 
         return HttpResponseRedirect(reverse_lazy('receipt:detail',args=[receipt.id]))
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(permission_required('receipt.view_receipt',raise_exception=False), name='dispatch')
 class DetailReceiptView(DetailView):
     model = Receipt
 
@@ -187,13 +208,19 @@ class ReceiptListView(ListView):
         receipts = self.get_queryset()
 
         receipts = receipts.filter(
-            Q(event_locality__event__name__icontains=keyword)|
-            Q(event_locality__locality__name__icontains=keyword)
+            Q(identifier__icontains=keyword)
+            |Q(costumer__first_name__icontains=keyword)
+            |Q(costumer__last_name__icontains=keyword)
+            |Q(costumer__identification__icontains=keyword)
+            |Q(salesman__first_name__icontains=keyword)
+            |Q(salesman__last_name__icontains=keyword)
+            |Q(salesman__identification__icontains=keyword)
+            |Q(pay_method__icontains=keyword)
         )
 
         return render(
             request,
-            'ticket/ticket_list.html',
+            'receipt/receipt_list.html',
             {
                 'object_list': receipts,
                 'keyword' : keyword
@@ -201,7 +228,7 @@ class ReceiptListView(ListView):
         )
 
     def get_queryset(self):
-        if self.request.user.has_perm('ticket.view_all_tickets'):
+        if self.request.user.has_perm('receipt.view_all_receipts'):
             receipts = Receipt.objects.filter(confirmed=True,is_active=True)
         else:
             receipts = Receipt.objects.filter(costumer=self.request.user,confirmed=True,is_active=True)

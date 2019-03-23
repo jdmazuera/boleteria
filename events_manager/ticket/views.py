@@ -11,9 +11,15 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.views.generic import TemplateView
 
-from events_manager.ticket.forms import TicketForm
-from events_manager.ticket.models import Ticket
+from events_manager.core.models import User
 from events_manager.event.models import Event
+from events_manager.event_locality.models import EventLocality
+from events_manager.locality.models import Locality
+from events_manager.receipt.models import Receipt
+from events_manager.ticket.models import Ticket
+from events_manager.type_event.models import TypeEvent
+
+from events_manager.ticket.forms import TicketForm
 
 from django.db.models import Q
 

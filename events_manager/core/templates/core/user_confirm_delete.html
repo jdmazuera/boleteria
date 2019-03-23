@@ -1,18 +1,21 @@
 {% extends 'core/base.html' %}
-{% block content %}    
+{% block content %}
 <form action="#" method="post">{% csrf_token %}
     <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xg-4 text-center" style="padding:5rem">
-            <h5>Esta seguro de eliminar al Usuario "{{ object.first_name }} {{ object.last_name }}"?</h5>
-            <hr>
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xg-6 text-center">
-                    <button class="btn btn-danger" type="submit">Aceptar</a>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xg-6 text-center">
-                    <a class="btn btn-primary" href="{% url 'core:list' %}">Cancelar</a>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+            <div class="alert alert-danger">
+                <h5>¿Esta Seguro De Eliminar El Usuario "{{ object }}"?</h5>
+                <hr>
+                <div class="row justify-content-center">
+                    <div class="btn-group mx-2">
+                        <button class="btn btn-danger" type="submit">Aceptar</a>
+                    </div>
+                    <div class="btn-group mx-2">
+                        <a class="btn btn-primary" href="{% url 'core:list' %}">Cancelar</a>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </form>

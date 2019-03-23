@@ -48,10 +48,10 @@
             </div>
         </div>
     </div>
-    {% if localities %}
+    {% if object.get_localities %}
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="row">
-        {% for locality in  localities %}
+        {% for locality in object.get_localities %}
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3" style="padding-bottom:1rem">
                 <div class="card">
                     <div class="card-header bg-primary text-white">

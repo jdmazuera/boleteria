@@ -62,6 +62,8 @@ class User(AbstractUser):
                     'add_receipt',
                     'change_receipt',
                     'delete_receipt',
+                    'add_ticket',
+                    'delete_ticket',
                     'add_event',
                     'change_event',
                     'delete_event'
@@ -89,7 +91,8 @@ class User(AbstractUser):
     
     class Meta:
         permissions = [
-            ("view_report", "Can View Report Module")
+            ("view_report", "Can View Report Module"),
+            ("view_all_user", "Can View All Users")
         ]
 
 User._meta.get_field('username').verbose_name = 'Nombre De Usuario'

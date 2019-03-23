@@ -10,6 +10,23 @@
 </div>
 <hr>
 <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 no-print">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if perms.receipt.change_receipt %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'receipt:update' object.id %}">Editar</a>
+            </div>
+            {% endif %}
+            {% if perms.receipt.delete_receipt %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-danger" href="{% url 'receipt:delete' object.id %}">Eliminar</a>
+            </div>
+            {% endif %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-secondary" href="{% url 'receipt:list' %}">Volver a Lista</a>
+            </div>
+        </div>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -64,7 +81,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in object.receipt.all %}
+                {% for item in receipt.get_items  %}
                 <tr>
                     <td>
                         {{ item.event_locality.event.name }}

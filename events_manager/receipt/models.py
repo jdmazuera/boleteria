@@ -43,6 +43,9 @@ class Receipt(BaseModel):
     def __str__(self):
         return self.identifier
 
+    def get_items(self):
+        return self.receipt.filter(is_active=True).order_by('id')
+
     def to_json(self):
         receipt_dict = model_to_dict(self)
 
@@ -74,6 +77,11 @@ class Receipt(BaseModel):
 
         self.confirmed = True
         super().save(*args, **kwargs)
+
+    def save(self,*args,**kwargs):
+        super().save(*args,**kwargs)
+        self.identifier = 'FV - '+str(self.id * 1000) + '-' + str((self.id * 1000)%95)
+        super().save(*args,**kwargs)
 
     class Meta:
         permissions = [

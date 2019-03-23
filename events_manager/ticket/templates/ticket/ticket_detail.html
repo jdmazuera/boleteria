@@ -15,7 +15,7 @@
                 <a class="btn btn-primary" href="{% url 'ticket:update' object.id %}">Editar</a>
             </div>
             {% endif %}
-            {% if perms.ticket.change_ticket %}
+            {% if perms.ticket.delete_ticket %}
             <div class="btn-group mr-2" role="group" aria-label="First group">
                 <a class="btn btn-danger" href="{% url 'ticket:delete' object.id %}">Eliminar</a>
             </div>

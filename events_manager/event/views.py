@@ -19,14 +19,6 @@ class EventCreateView(CreateView):
     model = Event
     success_url = reverse_lazy('event:list')
     form_class = EventForm
-    verbose_name = 'Crear'
-    model_name = 'Eventos'
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.view_event',raise_exception=False), name='dispatch')
@@ -43,19 +35,27 @@ class EventListView(ListView):
     model = Event
 
     def post(self,request):
+
         keyword = request.POST.get('keyword')
+
+        events = self.get_queryset()
+
+        events = events.filter(
+            Q(name__icontains=keyword)
+        )
+
         return render(
             request,
             'event/event_list.html',
             {
-                'events':Event.objects.filter(Q(name__icontains=keyword))
+                'object_list' : Event.objects.filter(Q(name__icontains=keyword)),
+                'keyword' : keyword
             }
         )
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['events'] = Event.objects.filter(is_active=True)
-        return context
+    
+    def get_queryset(self):
+        query_set =  Event.objects.filter(is_active=True)
+        return query_set
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_event',raise_exception=False), name='dispatch')
@@ -63,14 +63,6 @@ class EventCreateView(CreateView):
     model = Event
     success_url = reverse_lazy('event:list')
     form_class = EventForm
-    verbose_name = 'Crear'
-    model_name = 'Eventos'
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
         
 
 @method_decorator(login_required, name='dispatch')
@@ -79,19 +71,9 @@ class EventUpdateView(UpdateView):
     model = Event
     success_url = reverse_lazy('event:list')
     form_class = EventForm
-    template_name_suffix = '_update_form'
-    verbose_name = 'Editar'
-    model_name = 'Eventos'
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.delete_event',raise_exception=False), name='dispatch')
 class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('event:list')
-    fields = ['name']
-    template_name_suffix = '_confirm_delete'

@@ -108,9 +108,11 @@
                 </div>
               </li>
               {% endif %}
+              {% if perms.receipt.buy %}
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'receipt:detail_shopping_car' %}"><i class="fas fa-shopping-cart"></i> Carrito <span class="badge badge-light" ng-bind="item_quantity"></span></a>
               </li>
+              {% endif %}
               <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="#" id="user_dropdown" role="button" data-toggle="dropdown">Cuenta <i class="fas fa-user"></i></a>
                 <div class="dropdown-menu">

@@ -16,10 +16,6 @@ class TicketForm(ModelForm):
                 'Datos Basicos',
                 Row(
                     Div(
-                        Field('identifier'),
-                        css_class='col-md-3'
-                    ),
-                    Div(
                         Field('receipt'),
                         css_class='col-md-3'
                     ),
@@ -30,13 +26,13 @@ class TicketForm(ModelForm):
                     Div(
                         Field('price'),
                         css_class='col-md-3'
-                    )                    
-                ),
-                Row(
+                    ),
                     Div(
                         Field('quantity'),
                         css_class='col-md-3'
-                    ),
+                    )               
+                ),
+                Row(
                     Div(
                         Field('tax'),
                         css_class='col-md-3'
@@ -62,6 +58,6 @@ class TicketForm(ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['identifier','receipt','event_locality','price','quantity','tax','subtotal','total']
+        fields = ['receipt','event_locality','price','quantity','tax','subtotal','total']
     
     

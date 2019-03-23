@@ -15,6 +15,9 @@ class Event(BaseModel):
     ready_for_sale = models.BooleanField(default=False,verbose_name='Listo Para Vender')
     image_card = models.ImageField(upload_to = 'event_images/', default = 'event_images/default_image.png',verbose_name='Imagen Evento')
 
+    def get_localities(self):
+        return self.event.filter(is_active=True)
+
     def __str__(self):
         return self.name
 
