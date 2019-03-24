@@ -11,21 +11,22 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             {% if perms.event.change_event %}
-            <div class="btn-group mr-2" role="group" aria-label="First group">
+            <div class="btn-group" role="group" aria-label="First group">
                 <a class="btn btn-primary" href="{% url 'event:update' object.id %}">Editar</a>
             </div>
             {% endif %}
+            <div class="btn-group mx-2" role="group" aria-label="Third group">
+                <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
+            </div>
             {% if perms.eventlocality.add_eventlocality %}
-            <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <div class="btn-group" role="group" aria-label="Second group">
                 <a class="btn btn-warning" href="{% url 'eventlocality:create' object.id %}">Asignar Localidades</a>
             </div>
             {% endif %}
-            <div class="btn-group" role="group" aria-label="Third group">
-                    <a class="btn btn-secondary" href="{% url 'event:list' %}">Volver a Lista</a>
-            </div>
+            
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2">
         <div class="card">
             <div class="card-header bg-primary text-white">
                 <i class="fas fa-info-circle"></i> Informacion Del Evento
@@ -39,20 +40,26 @@
                         <b><span class="font-weight-bold text-dark">Deporte: </span></b>  {{ object.event_type }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Fecha: </span></b>  {{ object.date }}
+                        <b><span class="font-weight-bold text-dark">Fecha: </span></b>  {{ object.date | date }}
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
-                        <b><span class="font-weight-bold text-dark">Descripcion: </span></b>  {{ object.descripcion }}
+                        <b><span class="font-weight-bold text-dark">Hora: </span></b>  {{ object.date | time:"h:i a" }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Hora Apertura: </span></b>  {{ object.time_open | time:"h:i a" }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <b><span class="font-weight-bold text-dark">Dirección: </span></b>  {{ object.address }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
     {% if object.get_localities %}
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
         <div class="row">
         {% for locality in object.get_localities %}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3" style="padding-bottom:1rem">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pt-1">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Localidad {{ locality.locality.name }}
@@ -72,7 +79,7 @@
         </div>
     </div>
     {% else %}
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
         <div class="alert alert-info"  role="alert">
             Las localidades del evento aun estan por definir.
         </div>

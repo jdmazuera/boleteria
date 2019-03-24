@@ -24,10 +24,6 @@ class EventCreateView(CreateView):
 @method_decorator(permission_required('event.view_event',raise_exception=False), name='dispatch')
 class EventDetailView(DetailView):
     model = Event
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['localities'] =  context['object'].event.all()
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.view_event',raise_exception=False), name='dispatch')

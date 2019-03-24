@@ -17,20 +17,24 @@ class EventForm(ModelForm):
                 Row(
                     Div(
                         Field('name'),
-                        css_class='col-md-4'
+                        css_class='col-md-3'
                     ),
                     Div(
                         Field('event_type'),
-                        css_class='col-md-4'
+                        css_class='col-md-3'
                     ),
                     Div(
                         Field('date'),
-                        css_class='col-md-4'
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('time_open'),
+                        css_class='col-md-3'
                     )
                 ),
                 Row(
                     Div(
-                        Field('descripcion'),
+                        Field('address'),
                         css_class='col-md-6'
                     ),
                     Div(
@@ -49,6 +53,6 @@ class EventForm(ModelForm):
 
     class Meta:
         model = Event
-        fields = ['name','descripcion','event_type','date','image_card']
+        fields = ['name','address','event_type','date','time_open','image_card']
     
     
