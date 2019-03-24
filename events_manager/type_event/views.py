@@ -42,14 +42,6 @@ class TypeEventCreateView(CreateView):
     model = TypeEvent
     success_url = reverse_lazy('type_event:list')
     form_class = TypeEventForm
-    verbose_name = 'Crear'
-    model_name = 'Tipo Evento'
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('typeevent.change_typeevent',raise_exception=False), name='dispatch')
@@ -57,19 +49,10 @@ class TypeEventUpdateView(UpdateView):
     model = TypeEvent
     success_url = reverse_lazy('type_event:list')
     form_class = TypeEventForm
-    template_name_suffix = '_update_form'
-    verbose_name = 'Editar'
-    model_name = 'Tipo Evento'
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['view_name'] = self.verbose_name
-        context['model'] = self.model_name
-        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('typeevent.delete_typeevent',raise_exception=False), name='dispatch')
 class TypeEventDeleteView(DeleteView):
     model = TypeEvent
     success_url = reverse_lazy('type_event:list')
-    fields = ['name']
     template_name_suffix = '_confirm_delete'

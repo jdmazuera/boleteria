@@ -1,59 +1,63 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <h1>Tipo Eventos / <small>Lista</small> </h1>
-    </div>
-</div>
-
-<hr>
-<form method="POST">
-    {% csrf_token %}
+<form action="#" class="" method="POST">
     <div class="row">
-        <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+        <div class="col-md-8">
+            <h1>
+                <span class="badge badge-dark">Tipos De Eventos</span>
+            </h1>
+        </div>
+        <div class="col-md-4">
+            {% csrf_token %}
+            <div class="form-group input-group">
+                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A" value="{{ keyword }}">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if perms.typeevent.add_typeevent %}
+                    <a class="btn btn-secondary" href="{% url 'type_event:create' %}">Crear Tipo De Evento</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        {% if perms.typeevent.add_typeevent %}
-        <div class="col-md-1 form-group">
-            <a class="btn btn-primary" href="{% url 'type_event:create' %}">Crear Tipo De Evento</a>
-        </div>
-        {% endif %}
+        
     </div>
-    
 </form>
-<table class="table table-borderless table-hover table-responsive text-nowrap" id="events_table" width="100%" cellspacing="0">
-    <thead>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-borderless table-hover table-striped" id="ticket_table" width="100%" cellspacing="0">
+        <thead class="thead-light">
+            <tr>
+                {% if perms.typeevent.change_typeevent %}
+                <th></th>
+                {% endif %}
+                {% if perms.typeevent.delete_typeevent %}
+                <th></th>
+                {% endif %}
+                <th>Nombre</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in object_list %}
         <tr>
-            {% if perms.typeevent.delete_typeevent %}
-            <th></th>
+            {% if perms.typeevent.change_user %}
+            <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
             {% endif %}
-            {% if perms.typeevent.change_typeevent %}
-            <th></th>
+            {% if perms.typeevent.delete_user %}
+            <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
             {% endif %}
-            <th>Nombre Tipo De Evento</th>
-            <th>Descripción</th>
+            <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item.name }}</a></td>
+            <td>{{ item.description }}</td>
         </tr>
-    </thead>
-    <tbody>
-    {% for typeevent in typeevents %}
-    <tr>
-        {% if perms.typeevent.delete_typeevent %}
-        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ typeevent.get_absolute_delete_url }}"></a></td>
-        {% endif %}
-        {% if perms.typeevent.change_typeevent %}
-        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ typeevent.get_absolute_edit_url }}"></a></td>
-        {% endif %}
-        <td><a class="text-dark" href="{{ typeevent.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ typeevent.name }}</a></td>
-        <td>{{ typeevent.description }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock %}

@@ -45,10 +45,10 @@
         <tbody>
         {% for item in object_list %}
         <tr>
-            {% if perms.locality.change_user %}
+            {% if perms.locality.change_locality %}
             <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
             {% endif %}
-            {% if perms.locality.delete_user %}
+            {% if perms.locality.delete_locality %}
             <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
             {% endif %}
             <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item }}</a></td>
