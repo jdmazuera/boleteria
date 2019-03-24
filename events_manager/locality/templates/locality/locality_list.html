@@ -1,61 +1,63 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <h1>Localidades / <small>Lista</small> </h1>
-    </div>
-</div>
-
-<hr>
-<form action="#" method="POST">
-    {% csrf_token %}
+<form action="#" class="" method="POST">
     <div class="row">
-        <div class="col-md-5 form-group input-group">
-            <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+        <div class="col-md-8">
+            <h1>
+                <span class="badge badge-dark">Localidades</span>
+            </h1>
+        </div>
+        <div class="col-md-4">
+            {% csrf_token %}
+            <div class="form-group input-group">
+                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A" value="{{ keyword }}">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if perms.locality.add_locality %}
+                    <a class="btn btn-secondary" href="{% url 'locality:create' %}">Crear Localidad</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        {% if perms.typeevent.add_typeevent %}
-        <div class="col-md-1 form-group">
-            <a class="btn btn-primary" href="{% url 'locality:create' %}">Crear Localidad</a>
-        </div>
-        {% endif %}
+        
     </div>
-    
 </form>
-<table class="table table-borderless table-hover table-responsive text-nowrap" id="localities_table" width="100%" cellspacing="0">
-    <thead>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-borderless table-hover table-striped" id="ticket_table" width="100%" cellspacing="0">
+        <thead class="thead-light">
+            <tr>
+                {% if perms.locality.change_locality %}
+                <th></th>
+                {% endif %}
+                {% if perms.locality.delete_locality %}
+                <th></th>
+                {% endif %}
+                <th>Nombre</th>
+                <th>Tipo De Evento</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in object_list %}
         <tr>
-            {% if perms.locality.delete_locality %}
-            <th></th>
+            {% if perms.locality.change_user %}
+            <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
             {% endif %}
-            {% if perms.locality.change_locality %}
-            <th></th>
+            {% if perms.locality.delete_user %}
+            <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
             {% endif %}
-            <th>Nombre Localidad</th>
-            <th>Descripción</th>
-            <th>Tipo De Evento</th>
+            <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item }}</a></td>
+            <td>{{ item.event_type }}</td>
         </tr>
-    </thead>
-    <tbody>
-    {% for locality in localities %}
-    <tr>
-        {% if perms.locality.delete_locality %}
-        <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ locality.get_absolute_delete_url }}"></a></td>
-        {% endif %}
-        {% if perms.locality.change_locality %}
-        <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ locality.get_absolute_edit_url }}"></a></td>
-        {% endif %}
-        <td><a class="text-dark" href="{{ locality.get_absolute_detail_url }}"><i class="fas fa-eye"></i> {{ locality.name }}</a></td>
-        <td>{{ locality.description }}</td>
-        <td>{{ locality.event_type }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock %}

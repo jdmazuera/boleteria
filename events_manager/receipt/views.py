@@ -147,7 +147,7 @@ class DetailShoppingCar(View):
             shopping_car = loads(request.session['shopping_car'])
             receipt = Receipt.objects.get(id=shopping_car['receipt_session_id'])
 
-            if ticket.receipt.get_items().count() <= 0:
+            if receipt.get_items().count() <= 0:
                 return redirect('receipt:detail_shopping_car')
 
 

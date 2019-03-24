@@ -17,15 +17,15 @@ class LocalityForm(ModelForm):
                 Row(
                     Div(
                         Field('name'),
-                        css_class='col-md-6'
-                    ),
-                    Div(
-                        Field('description'),
-                        css_class='col-md-6'
+                        css_class='col-md-4'
                     ),
                     Div(
                         Field('event_type'),
-                        css_class='col-md-6'
+                        css_class='col-md-4'
+                    ),
+                    Div(
+                        Field('description'),
+                        css_class='col-md-4'
                     )
                 )           
             ),
@@ -34,8 +34,6 @@ class LocalityForm(ModelForm):
                 HTML('<a class="btn btn-secondary" href={% url \'locality:list\' %}>Cancelar</a></button>')
             )
         )
-    def save(self, *args, **kwargs):
-        return super(LocalityForm, self).save(*args, **kwargs)
 
     class Meta:
         model = Locality
