@@ -9,3 +9,6 @@ class Locality(BaseModel):
     name = models.CharField(max_length=250,blank=False,null=False,verbose_name='Nombre',unique=True)
     description = models.TextField(blank=True,null=True,verbose_name='Descripcion')
     event_type = models.ForeignKey(to=TypeEvent,on_delete=models.CASCADE,verbose_name='Tipo De Evento',related_name='event_type_locality',null=True,blank=False)
+
+    def __str__(self):
+        return self.name

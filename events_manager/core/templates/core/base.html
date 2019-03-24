@@ -51,7 +51,7 @@
               {% if perms.typeevent.view_typeevent %}
               <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Tipo Evento <i class="fas fa-football-ball"></i>
+                  Tipo Evento <i class="fa fa-list-alt"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
                   <a class="dropdown-item" href="{% url 'type_event:list' %}">Ver</a>
@@ -65,13 +65,27 @@
               {% if perms.locality.view_locality %}
               <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Localidad <i class="fas fa-football-ball"></i>
+                  Localidad <i class="fas fa-location-arrow"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
                   <a class="dropdown-item" href="{% url 'locality:list' %}">Ver</a>
                   {% if perms.locality.add_locality %}
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'locality:create' %}">Crear</a>
+                  {% endif %}
+                </div>
+              </li>
+              {% endif %}
+              {% if perms.eventlocality.view_eventlocality %}
+              <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="eventos_dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Localidad De Evento <i class="fas fa-arrows-alt"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="eventos_dropdown">
+                  <a class="dropdown-item" href="{% url 'eventlocality:list' %}">Ver</a>
+                  {% if perms.eventlocality.add_eventlocality %}
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'eventlocality:create' %}">Crear</a>
                   {% endif %}
                 </div>
               </li>

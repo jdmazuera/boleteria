@@ -9,7 +9,7 @@
         <div class="col-md-4">
             {% csrf_token %}
             <div class="form-group input-group">
-                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A">
+                <input type="text" class="form-control" name="keyword" id="search_field" placeholder="Buscar A" value="{{ keyword }}">
                 <div class="input-group-append">
                     <button class="btn btn-secondary" type="submit">
                         <i class="fas fa-search"></i>

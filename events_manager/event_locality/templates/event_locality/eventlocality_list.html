@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8">
             <h1>
-                <span class="badge badge-dark">Mis Compras</span>
+                <span class="badge badge-dark">Localidades De Eventos</span>
             </h1>
         </div>
         <div class="col-md-4">
@@ -16,8 +16,8 @@
                     <button class="btn btn-secondary" type="submit">
                         <i class="fas fa-search"></i>
                     </button>
-                    {% if perms.receipt.add_receipt %}
-                    <a class="btn btn-secondary" href="{% url 'receipt:create' %}">Crear Factura</a>
+                    {% if perms.eventlocality.add_eventlocality %}
+                    <a class="btn btn-secondary" href="{% url 'eventlocality:create' %}">Crear Localidad De Evento</a>
                     {% endif %}
                 </div>
             </div>
@@ -32,33 +32,35 @@
     <table class="table table-borderless table-hover table-striped" id="ticket_table" width="100%" cellspacing="0">
         <thead class="thead-light">
             <tr>
-                {% if perms.receipt.change_receipt %}
+                {% if perms.eventlocality.change_eventlocality %}
                 <th></th>
                 {% endif %}
-                {% if perms.receipt.delete_receipt %}
+                {% if perms.eventlocality.delete_eventlocality %}
                 <th></th>
                 {% endif %}
-                <th>Factura</th>
-                <th>Fecha Y Hora De Compra</th>
-                <th>Propietario</th>
-                <th>Confirmada</th>
-                <th>Asesor</th>
+                <th>Codigo</th>
+                <th>Evento</th>
+                <th>Localidad</th>
+                <th>Precio</th>
+                <th>Capacidad</th>
+                <th>Disponibilidad</th>
             </tr>
         </thead>
         <tbody>
         {% for item in object_list %}
         <tr>
-            {% if perms.receipt.change_receipt %}
+            {% if perms.eventlocality.change_user %}
             <td><a class="btn btn-outline-danger btn-sm fas fa-trash-alt"  href="{{ item.get_absolute_delete_url }}"></a></td>
             {% endif %}
-            {% if perms.receipt.delete_receipt %}
+            {% if perms.eventlocality.delete_user %}
             <td><a class="btn btn-outline-info btn-sm fas fa-pencil-alt" href="{{ item.get_absolute_edit_url }}"></a></td>
             {% endif %}
             <td><a class="btn btn-outline-dark btn-sm" href="{{ item.get_absolute_detail_url }}">{{ item.identifier }}</a></td>
-            <td>{{ item.creation_date }}</td>
-            <td><a class="btn btn-outline-dark btn-sm" href="{{ item.costumer.get_absolute_detail_url }}">{{ item.costumer }}</a></td>
-            <td>{{ item.confirmed |yesno:"Si,No" }}</td>
-            <td>{{ item.salesman }}</td>
+            <td>{{ item.event }}</td>
+            <td>{{ item.locality }}</td>
+            <td>${{ item.price }}</td>
+            <td>{{ item.capacity }}</td>
+            <td>{{ item.availability }}</td>
         </tr>
         {% endfor %}
         </tbody>

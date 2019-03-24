@@ -51,6 +51,44 @@ class EventLocalityForm(forms.Form):
                 HTML('<a class="btn btn-secondary" href={% url \'event:list\' %}>Cancelar</a></button>')
             )
         )
+
+
+class EventLocalityFormCRUD(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(EventLocalityFormCRUD, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_action = '#'
+        self.helper.layout = Layout(
+            Fieldset(
+                'Datos Basicos',
+                Row(
+                    Div(
+                        Field('event'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('locality'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('capacity'),
+                        css_class='col-md-3'
+                    ),
+                    Div(
+                        Field('price'),
+                        css_class='col-md-3'
+                    )
+                )            
+            ),
+            ButtonHolder(
+                Submit('submit', 'Guardar', css_class='button white'),
+                HTML('<a class="btn btn-secondary" href={% url \'eventlocality:list\' %}>Cancelar</a></button>')
+            )
+        )
+
+    class Meta:
+        model = EventLocality
+        fields = ['event','locality','price','capacity']
         
         
         

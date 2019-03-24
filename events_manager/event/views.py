@@ -44,7 +44,7 @@ class EventListView(ListView):
             request,
             'event/event_list.html',
             {
-                'object_list' : Event.objects.filter(Q(name__icontains=keyword)),
+                'object_list' : events,
                 'keyword' : keyword
             }
         )

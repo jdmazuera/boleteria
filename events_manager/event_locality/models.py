@@ -5,18 +5,21 @@ from events_manager.event.models import Event
 from events_manager.locality.models import Locality
 
 class EventLocality(BaseModel):
-    detail_view_name = 'event_locality:detail'
-    edit_view_name = 'event_locality:update'
-    delete_view_name = 'event_locality:delete'
+    detail_view_name = 'eventlocality:detail'
+    edit_view_name = 'eventlocality:update'
+    delete_view_name = 'eventlocality:delete'
     event = models.ForeignKey(to=Event,on_delete=models.CASCADE,verbose_name='Evento',related_name='event',null=True,blank=False)
     locality = models.ForeignKey(to=Locality,on_delete=models.CASCADE,verbose_name='Localidad',related_name='locality',null=True,blank=False)
     capacity = models.IntegerField(blank=False,null=False,default=0,verbose_name='Capacidad',validators=[validator_greater_zero])
     availability = models.IntegerField(blank=False,null=False,default=0,verbose_name='Disponibilidad')
     price = models.FloatField(blank=False,null=False,default=0,verbose_name='Capacidad',validators=[validator_greater_zero])
+    identifier = models.CharField(max_length=250,blank=True,null=True,verbose_name='Codigo')
 
     def save(self,*args,**kwargs):
         if not self.id:
             self.availability = self.capacity
+        super().save(*args,**kwargs)
+        self.identifier = 'Localidad Evento - ' + str(self.id * 10000) + ' - ' + str((self.id * 10000)%456)
         super().save(*args,**kwargs)
 
     def __str__(self):

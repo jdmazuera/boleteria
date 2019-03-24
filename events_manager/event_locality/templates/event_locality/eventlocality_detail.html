@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class = "page-header">
+    <h1>
+        <span class="badge badge-dark">Localidad De Evento</span> 
+        <small><b>{{ object }}</b></small>
+    </h1>
+</div>
+<hr>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 no-print">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            {% if perms.eventlocality.change_eventlocality %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-primary" href="{% url 'eventlocality:update' object.id %}">Editar</a>
+            </div>
+            {% endif %}
+            {% if perms.eventlocality.delete_eventlocality %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-danger" href="{% url 'eventlocality:delete' object.id %}">Eliminar</a>
+            </div>
+            {% endif %}
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a class="btn btn-secondary" href="{% url 'eventlocality:list' %}">Volver a Lista</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-top:1rem">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-info-circle"></i> Informacion Basica
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Codigo: </span></b>  {{ object.identifier }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Evento: </span></b>  {{ object.event }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Localidad: </span></b>  {{ object.locality }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Precio: </span></b>  {{ object.price }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Capacidad: </span></b>  {{ object.capacity }}
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-4 py-2">
+                        <b><span class="font-weight-bold text-dark">Disponibilidad: </span></b>  {{ object.availiabity }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
