@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'events_manager.core',
     'events_manager.event',
     'events_manager.ticket',
@@ -185,3 +186,5 @@ MEDIA_URL = '/media/'
 
 TIME_ZONE = 'America/Bogota'
 LANGUAGE_CODE = 'es-COL'
+
+SITE_ID = 1

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from events_manager.core.models import BaseModel
 from events_manager.type_event.models import TypeEvent
+from django.db.models import Min,Max
 
 class Event(BaseModel):
     detail_view_name = 'event:detail'
@@ -9,13 +10,21 @@ class Event(BaseModel):
     delete_view_name = 'event:delete'
 
     name = models.CharField(max_length=250,blank=False,null=False,verbose_name='Nombre')
-    address = models.TextField(blank=True,null=True,verbose_name='Direccion')
+    address = models.TextField(blank=False,null=True,verbose_name='Direccion')
     event_type = models.ForeignKey(to=TypeEvent,on_delete=models.CASCADE,verbose_name='Tipo De Evento',related_name='event_type_event',null=True,blank=False)
     date = models.DateTimeField(blank=False,null=False,default=now,verbose_name='Fecha Evento Y Hora Evento')
     time_open = models.TimeField(blank=False,null=False,default=now,verbose_name='Hora De Apertura')
     identifier = models.CharField(max_length=250,blank=True,null=True,verbose_name='Codigo')
     ready_for_sale = models.BooleanField(default=False,verbose_name='Listo Para Vender')
     image_card = models.ImageField(upload_to = 'event_images/', default = 'event_images/default_image.png',verbose_name='Imagen Evento')
+
+    @property
+    def min_price(self):
+        return self.event.filter(is_active=True).aggregate(Min('price')).get('price__min', 0.00)
+
+    @property
+    def max_price(self):
+        return self.event.filter(is_active=True).aggregate(Max('price')).get('price__max', 0.00)
 
     def get_localities(self):
         return self.event.filter(is_active=True)

@@ -14,6 +14,8 @@ from rest_framework.generics import ListAPIView
 from events_manager.event.forms import EventForm
 from events_manager.event.models import Event
 from events_manager.event.serializers import EventSerializer
+import requests
+
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_typeevent',raise_exception=False), name='dispatch')
@@ -50,6 +52,22 @@ class EventListView(ListView):
                 'keyword' : keyword
             }
         )
+
+    def get_context_data(self):
+        context = super().get_context_data()
+
+        try:
+            json_file = open('events_manager/allies_sites.json').read()
+            JSON_ALLIES_SITES = loads(json_file)
+            sites = JSON_ALLIES_SITES['SITES']
+
+            for site in sites:
+                response = requests.get(site)
+                print(response.json())
+        except:
+            pass
+        
+        return context
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_event',raise_exception=False), name='dispatch')
