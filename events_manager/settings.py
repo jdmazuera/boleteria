@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'events_manager.event_locality',
     'events_manager.locality',
     'crispy_forms',
-    'social_django'
+    'social_django',
+    'rest_framework' 
 ]
 
 MIDDLEWARE = [

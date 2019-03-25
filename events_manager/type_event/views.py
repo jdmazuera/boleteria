@@ -23,18 +23,25 @@ class TypeEventListView(ListView):
 
     def post(self,request):
         keyword = request.POST.get('keyword')
+
+        query_set = self.get_queryset()
+
+        query_set = query_set.filter(
+            Q(name__icontains=keyword)
+        )
+
         return render(
             request,
             'type_event/typeevent_list.html',
             {
-                'typeevents':TypeEvent.objects.filter(Q(name__icontains=keyword)|Q(description__icontains=keyword))
+                'object_list': query_set,
+                'keyword' : keyword
             }
         )
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['typeevents'] = TypeEvent.objects.filter(is_active=True)
-        return context
+    def get_queryset(self):
+        query_set = TypeEvent.objects.filter(is_active=True)
+        return query_set
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('typeevent.add_typeevent',raise_exception=False), name='dispatch')

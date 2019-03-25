@@ -229,9 +229,9 @@ class ReceiptListView(ListView):
 
     def get_queryset(self):
         if self.request.user.has_perm('receipt.view_all_receipts'):
-            receipts = Receipt.objects.filter(confirmed=True,is_active=True)
+            receipts = Receipt.objects.filter(confirmed=True)
         else:
-            receipts = Receipt.objects.filter(costumer=self.request.user,confirmed=True,is_active=True)
+            receipts = Receipt.objects.filter(costumer=self.request.user,confirmed=True)
         return receipts
 
 @method_decorator(login_required, name='dispatch')

@@ -112,15 +112,21 @@ User._meta.get_field('last_name').blank = False
 User._meta.get_field('is_active').verbose_name = 'Activo'
 User._meta.get_field('is_active').help_text = 'Desactiva el acceso al usuario a las caracteristicas del sistema'
 
+class BaseManager(models.Manager):
+    def get_queryset(self):
+        return super(BaseManager, self).get_queryset().filter(is_active=True)
+
 class BaseModel(models.Model):
     detail_view_name = None
     edit_view_name = None
     delete_view_name = None
 
+    objects = BaseManager()
 
     user_creator = CurrentUserField(verbose_name='Usuario Creador')
     is_active = models.BooleanField(default=True,verbose_name='Activo')
     creation_date = models.DateTimeField(default=now,verbose_name='Fecha De Creación',null=True,blank=False)
+
 
     @property
     def get_absolute_detail_url(self):

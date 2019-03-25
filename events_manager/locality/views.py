@@ -41,10 +41,6 @@ class LocalityListView(ListView):
             }
         )
 
-    def get_queryset(self):
-        query_set =  Locality.objects.filter(is_active=True)
-        return query_set
-
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('locality.add_locality',raise_exception=False), name='dispatch')
 class LocalityCreateView(CreateView):

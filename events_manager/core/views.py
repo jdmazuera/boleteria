@@ -135,7 +135,6 @@ class LoginView(View):
             }
         )
     
-
 @method_decorator(login_required, name='dispatch')
 class LogoutView(View):
     def get(self,request,*args,**kwargs):

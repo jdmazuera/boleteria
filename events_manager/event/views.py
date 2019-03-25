@@ -9,9 +9,11 @@ from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from rest_framework.generics import ListAPIView
 
 from events_manager.event.forms import EventForm
 from events_manager.event.models import Event
+from events_manager.event.serializers import EventSerializer
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_typeevent',raise_exception=False), name='dispatch')
@@ -48,10 +50,6 @@ class EventListView(ListView):
                 'keyword' : keyword
             }
         )
-    
-    def get_queryset(self):
-        query_set =  Event.objects.filter(is_active=True)
-        return query_set
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('event.add_event',raise_exception=False), name='dispatch')
@@ -73,3 +71,8 @@ class EventUpdateView(UpdateView):
 class EventDeleteView(DeleteView):
     model = Event
     success_url = reverse_lazy('event:list')
+
+class EventAPIView(ListAPIView):
+    queryset = Event.objects.filter(is_active=True)
+    serializer_class = EventSerializer
+    

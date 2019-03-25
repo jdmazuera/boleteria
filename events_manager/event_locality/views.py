@@ -88,10 +88,6 @@ class EventLocalityListView(ListView):
                 'keyword' : keyword
             }
         )
-    
-    def get_queryset(self):
-        query_set =  EventLocality.objects.filter(is_active=True)
-        return query_set
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(permission_required('eventlocality.delete_eventlocality',raise_exception=False), name='dispatch')
