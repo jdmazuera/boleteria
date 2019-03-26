@@ -14,6 +14,7 @@ from rest_framework.generics import ListAPIView
 from events_manager.event.forms import EventForm
 from events_manager.event.models import Event
 from events_manager.event.serializers import EventSerializer
+from json import loads
 import requests
 
 
@@ -60,12 +61,14 @@ class EventListView(ListView):
             json_file = open('events_manager/allies_sites.json').read()
             JSON_ALLIES_SITES = loads(json_file)
             sites = JSON_ALLIES_SITES['SITES']
+            allies_events = []
 
             for site in sites:
                 response = requests.get(site)
-                print(response.json())
+                allies_events += response.json()
+                context['allies_events'] = allies_events
         except:
-            pass
+            raise
         
         return context
 

@@ -26,7 +26,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     def get_url(self,obj):
         site = Site.objects.get_current()
-        return site.domain + str(obj.get_absolute_detail_url)
+        return 'http://'+site.domain + str(obj.get_absolute_detail_url)
     
     def get_valor_max(self,obj):
         return obj.max_price
