@@ -26,50 +26,54 @@
 
 <hr>
 
-
-<table class="table table-borderless table-hover table-responsive text-nowrap" id="events_table" width="100%" cellspacing="0">
-    <div class="row">
-    {% for event in object_list %}
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4" style="padding-top:2rem">
-            <div class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
-                <img class="card-img-top" src="{{ event.image_card.url }}">
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.get_absolute_detail_url }}">{{ event.name }}</a></h4></li>
-                        <li class="list-group-item">{{ event.event_type }}</li>
-                        <li class="list-group-item">Fecha: {{ event.date | date }}</li>
-                        <li class="list-group-item">Dirección: {{ event.address }}</li>
-                    </ul>
-                    {% if perms.event.delete_event %}
-                    <div class="btn-group ml-5 mt-2">
-                        <a class="btn btn-danger btn-sm fas fa-trash-alt" href="{% url 'event:delete' event.id %}"></a>
-                    </div>
-                    {% endif %}
-                    {% if perms.event.change_event %}
-                    <div class="btn-group ml-5 mt-2">
-                        <a class="btn btn-secondary btn-sm fas fa-pencil-alt" href="{% url 'event:update' event.id %}"></a>
-                    </div>
-                    {% endif %}
+<div class="row">
+{% for event in object_list %}
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 pt-2">
+        <div class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
+            <img class="card-img-top" src="{{ event.image_card.url }}">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.get_absolute_detail_url }}">{{ event.name }}</a></h4></li>
+                    <li class="list-group-item">{{ event.event_type }}</li>
+                    <li class="list-group-item">Fecha: {{ event.date | date }}</li>
+                    <li class="list-group-item">Dirección: {{ event.address }}</li>
+                </ul>
+                {% if perms.event.delete_event %}
+                <div class="btn-group ml-5 mt-2">
+                    <a class="btn btn-danger btn-sm fas fa-trash-alt" href="{% url 'event:delete' event.id %}"></a>
                 </div>
-                
-            </div>
-        </div>
-    {% endfor %}
-    {% for event in allies_events %}
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4" style="padding-top:2rem">
-            <div class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.url }}">{{ event.nombre }}</a></h4></li>
-                        <li class="list-group-item">Fecha: {{ event.fecha }}</li>
-                        <li class="list-group-item">Dirección: {{ event.lugar }}</li>
-                    </ul>
+                {% endif %}
+                {% if perms.event.change_event %}
+                <div class="btn-group ml-5 mt-2">
+                    <a class="btn btn-secondary btn-sm fas fa-pencil-alt" href="{% url 'event:update' event.id %}"></a>
                 </div>
-                
+                {% endif %}
             </div>
+            
         </div>
-    {% endfor %}
     </div>
-</table>
+{% endfor %}
+</div>
+<div class="row py-2">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 pt-2">
+        <h4>Eventos En Aliados</h4>
+    </div>
+</div>
+<div class="row">
+{% for event in allies_events %}
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 py-2">
+        <div class="card" href="{{ event.get_absolute_detail_url }}" style="text-decoration:none">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h4><a class="text-secondary" href="{{ event.url }}">{{ event.nombre }}</a></h4></li>
+                    <li class="list-group-item">Fecha: {{ event.fecha }}</li>
+                    <li class="list-group-item">Dirección: {{ event.lugar }}</li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+{% endfor %}
+</div>
 
 {% endblock %}

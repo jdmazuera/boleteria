@@ -67,8 +67,8 @@ class EventListView(ListView):
                 response = requests.get(site)
                 allies_events += response.json()
                 context['allies_events'] = allies_events
-        except:
-            raise
+        except Exception as e:
+            print(e)
         
         return context
 
