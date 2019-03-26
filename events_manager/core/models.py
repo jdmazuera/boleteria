@@ -72,12 +72,12 @@ class User(AbstractUser):
             self.user_permissions.set(permissions)
 
         elif self.position == 'Cliente':
-            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','buy'))
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','buy','view_receipt'))
             self.user_permissions.set(permissions)
 
         else:
             self.position = 'Cliente'
-            permissions = Permission.objects.filter(codename__in=('user_view','view_event','view_ticket','view_user','buy'))
+            permissions = Permission.objects.filter(codename__in=('view_event','view_ticket','add_ticket','view_user','buy','view_receipt'))
             self.user_permissions.set(permissions)
 
         super(User, self).save(*args, **kwargs)
