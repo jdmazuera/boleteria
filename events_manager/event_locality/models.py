@@ -14,10 +14,10 @@ class EventLocality(BaseModel):
     availability = models.IntegerField(blank=False,null=False,default=0,verbose_name='Disponibilidad')
     price = models.FloatField(blank=False,null=False,default=0,verbose_name='Capacidad',validators=[validator_greater_zero])
     identifier = models.CharField(max_length=250,blank=True,null=True,verbose_name='Codigo')
+    sold = models.IntegerField(blank=False,null=False,default=0,verbose_name='Vendidas')
 
     def save(self,*args,**kwargs):
-        if not self.id:
-            self.availability = self.capacity
+        self.availability = int(self.capacity) - self.sold
         super().save(*args,**kwargs)
         self.identifier = 'Localidad Evento - ' + str(self.id * 10000) + ' - ' + str((self.id * 10000)%456)
         super().save(*args,**kwargs)
@@ -28,6 +28,7 @@ class EventLocality(BaseModel):
     def to_discount(self,quantity,commit=False):
         if self.availability >= quantity and quantity >= 0:
             self.availability -= quantity
+            self.sold += quantity
             if commit:
                 self.save()
             return True

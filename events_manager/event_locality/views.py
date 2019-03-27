@@ -49,11 +49,21 @@ class EventLocalityAsignView(View):
                     locality = Locality.objects.get(pk=key_splited[0])
                 except ObjectDoesNotExist:
                     return HttpResponseRedirect(reverse_lazy('event:detail',args=[kwargs['event']]))
+                
+                defaults={
+                    key_splited[1]: values[key]
+                }
 
-                EventLocality.objects.update_or_create(
-                    event=event, locality=locality,
-                    defaults={key_splited[1]: values[key]},
-                )
+                try:
+                    obj = EventLocality.objects.get(event=event, locality=locality)
+                    for key, value in defaults.items():
+                        setattr(obj, key, value)
+                    obj.save()
+                except ObjectDoesNotExist:
+                    new_values = {'event': event, 'locality': locality}
+                    new_values.update(defaults)
+                    obj = EventLocality(**new_values)
+                    obj.save()
 
         return HttpResponseRedirect(reverse_lazy('event:detail',args=[kwargs['event']]))
 

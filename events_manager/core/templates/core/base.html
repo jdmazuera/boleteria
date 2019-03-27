@@ -18,6 +18,7 @@
     <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'vendor/alertify/css/alertify.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'vendor/alertify/css/themes/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendor/ui-grid/ui-grid.css' %}" rel="stylesheet" type="text/css">
     <!-- Core plugin AngularJS-->
     <script src="{% static 'vendor/angularjs/angular.min.js' %}"></script>
     <script src="{% static 'vendor/angularjs/angular-cookies.min.js' %}"></script>
@@ -25,6 +26,7 @@
     <script src="{% static 'vendor/alertify/alertify.min.js' %}"></script>
     <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
     <script src="{% static 'vendor/angular-chart/angular-chart.js' %}"></script>
+    <script src="{% static 'vendor/ui-grid/ui-grid.js' %}"></script>
     <script src="{% static 'core/core.js' %}"></script>
   </head>
   <body class="ng-cloak" id="page-top" ng-app="boleteriaApp" ng-controller="boleteriaController" ng-init="init({{ request.session.shopping_car }})">
@@ -119,6 +121,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="ticket_dropdown">
                   <a class="dropdown-item" href="{% url 'report:sell_by_event' %}">Boletos Vendidos Por Evento</a>
+                  <a class="dropdown-item" href="{% url 'report:top_costumers' %}">Top Clientes</a>
+                  <a class="dropdown-item" href="{% url 'report:summerize_event_locality' %}">Resumen De Localidades En Eventos</a>
                 </div>
               </li>
               {% endif %}
