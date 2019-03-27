@@ -152,3 +152,56 @@ boleteria.controller('summarizeEventLocalityController',function($scope,$http){
     }
 
 });
+
+boleteria.controller('paretoCostumersController',function($scope,$http,$window){
+
+    $scope.init = function(initial_params){
+        $scope.params = initial_params;
+        $scope.filtros = {};
+        
+        var ctx = document.getElementById('pareto_costumers_chart').getContext('2d');
+
+        $window.chart_object = new Chart(ctx, {
+            type: 'bar',
+            data: [],
+            options: {
+                title: {
+                    display: true,
+                    text: 'Clientes Pareto'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+
+    }
+
+    $scope.fetchData = function(){
+        $http({
+            method: 'POST',
+            url: '/report/pareto_costumers',
+            data: $scope.filtros
+        }).then(function(response){
+            $window.chart_object.data = response.data;
+            $window.chart_object.update();
+        },function(response){
+            
+        })
+    }
+
+    $scope.cleanFilters = function(){
+        $scope.filtros = {};
+    }
+
+});

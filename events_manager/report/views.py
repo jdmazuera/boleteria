@@ -138,3 +138,62 @@ def summerize_event_locality(request):
             })
         }
     )
+
+
+@login_required
+@permission_required('core.view_report',raise_exception=False)
+def pareto_costumers(request):
+
+    if request.is_ajax():
+        body_unicode = request.body.decode('utf-8')
+        body = loads(body_unicode)
+
+        condiciones = {}
+
+        if body.get('evento'):
+            condiciones['event_locality__event__id']=body['evento'][0]
+        if body.get('fecha_inicial'):
+            condiciones['creation_date__gte']=body['fecha_inicial']
+        if body.get('fecha_final'):
+            condiciones['creation_date__lte']=body['fecha_final']
+            
+        total_sold = Ticket.objects.filter(**condiciones).aggregate(ventas=Sum('subtotal')).get('ventas',0) * 0.80
+        costumers = Ticket.objects.filter(**condiciones).values('receipt__costumer__first_name','receipt__costumer__last_name').annotate(ventas=Sum('subtotal')).order_by('-ventas')
+
+        running_total = 0
+        pareto_costumers_label = []
+        pareto_costumers_data = []
+
+        for item in costumers:
+            running_total += item.get('ventas',0)
+
+            if not pareto_costumers_data or running_total <= total_sold:
+                pareto_costumers_label.append((item['receipt__costumer__first_name']+' '+item['receipt__costumer__last_name']))
+                pareto_costumers_data.append(item['ventas'])            
+
+        chart_data = {
+            'labels' : pareto_costumers_label,
+            'datasets' : [
+                {
+                    'label': 'Comprado',
+                    'stack': 'Stack 0',
+                    'data': pareto_costumers_data
+                }
+            ]
+        }
+
+        return HttpResponse(dumps(chart_data))
+
+    users_list = User.objects.all().annotate(full_name=Concat('first_name',Value(' '),'last_name')).values_list('pk','full_name')
+    events_list = Event.objects.all().values_list('pk','name')
+
+    return render(
+        request,
+        'report/report_pareto_costumers.html',
+        {
+            'initial_params':dumps({
+                'users_list' : list(users_list),
+                'events_list' : list(events_list)
+            })
+        }
+    )
