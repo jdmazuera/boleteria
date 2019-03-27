@@ -2,7 +2,8 @@
 /events_manager/**/__pycache__/**
 /events_manager/**/migrations/**
 /events_manager/__pycache__/**
-events_manager/secrets.json
+/events_manager/secrets.json
+/media/
 .vscode/settings.json
 .gitignore
 secrets.json
